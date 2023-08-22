@@ -17,26 +17,40 @@ public class SelectionSort {
             int_count++; //increment int_count
         }
         // iterate through array and print values
-        for (int x = 0; x < 5; x++){
-            System.out.println("List of array values to sort: ");
+        System.out.println("List of array values to sort: ");
+        for (int x = 0; x < arrayToSort.length; x++){
             System.out.println(arrayToSort[x]);
         }
 
-        int[] sortedArray = new int[5]; // array to store selection from method
-        // Call Method to Sort Values
-        sortedArray = sortArray(arrayToSort);
+        // Declare array and call Method to Sort Values
+        int[] sortedArray = sortArray(arrayToSort);
 
+        // iterate through sorted array and print values
+        System.out.println("Sorted array values: ");
+        for (int x = 0; x < sortedArray.length; x++) {
+            System.out.println(sortedArray[x]);
+        }
     }
 
     // Method to sort array using Selection sort
-    private static int[] sortArray(int[]){
+    private static int[] sortArray(int[] input){
         int minIndex; // declare int to store minimum value in array
-        int comparisonCount; // declare int to store number of comparisons that have happened
-        // loop through array of values
-        for (int x = 0; x < 5; x++){
 
-            for (int y=0; y < comparisonCount; y++)
+        // loop through array of values
+        for (int x = 0; x < (input.length - 1); x++){
+            minIndex = x; // current lowest value of array to compare against
+            // loop through remaining unsorted elements
+            for (int y = x + 1; y < input.length; y++){ // start at x + 1 since it is value next to x in array
+                if ((input[y]) < input[minIndex]){ // If int[y] is less than current lowest value, update minIndex
+                    minIndex = y; //update minIndex to reflect new min value
+                }
+            }
+            int oldValue = input[x]; //Store old value
+            int newValue = input[minIndex]; // Store new value
+            input[minIndex] = oldValue; // Swap Values
+            input[x] = newValue; // Swap Values
 
         }
+        return input;
     }
 }

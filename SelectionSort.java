@@ -3,9 +3,15 @@ public class SelectionSort {
     public static void main (String[] args) {
 
         Scanner input = new Scanner(System.in);  // Define scanner variable
-        int[] arrayToSort = new int[5]; // array to store selection from method
-        int int_count = 1; // Declare variable
-        for (int x = 0; x < 5; x++) {
+        int int_count = 1; // Declare variable the stores current value of array for input
+
+        // Prompt user for number of values to sort
+        System.out.print("How many numbers do you want to sort: ");
+        int arrayLength = input.nextInt();
+        int[] arrayToSort = new int[arrayLength]; // array to store selection from method
+
+        // Loop through and get value inputs from users
+        for (int x = 0; x < arrayLength; x++) {
             System.out.println("Enter number " + int_count + " value: "); // Prompt user for integers
             // Check if the input is an integer
             while (!input.hasNextInt()) {
@@ -13,7 +19,7 @@ public class SelectionSort {
                 input.next(); // Consume the invalid input
             }
             // Store input to array
-            arrayToSort[x] = input.nextInt();;
+            arrayToSort[x] = input.nextInt();
             int_count++; //increment int_count
         }
         // iterate through array and print values

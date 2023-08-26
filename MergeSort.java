@@ -38,53 +38,74 @@ public class MergeSort {
         }
     }
 
-    // Method to sort array using Selection sort
-    private static int[] sortArray(int[] input){
-        int minIndex; // declare int to store minimum value in array
-        int[] sortedArray = new int[input.length]; // array to store sorted array
-
-        // array length is an even number
-        if (input.length % 2 == 0){
-            // Number of sublists is length of array divided by two
-            int subListCount = input.length / 2;
-        }
-        else {
-            // Number of sublists is length of array divided by two + 1 to account for odd number
-            int subListCount = (input.length / 2) + 1;
-        }
-
-        // loop for pairs of values to compare and sort
-        for (int x = 0; x < subListCount; x++){
-            pairCounter = 0; // declare value to count by two
-            // Compare values
-            if (input[pairCounter] > input[pairCounter+1]){
-                int oldValue = input[pairCounter];
-                input[pairCounter] = input[pairCounter+1];
-                input[pairCounter+1] = oldValue
+    // Method to sort array using Merge sort
+    public static void mergeSort(int[] list, int start, int end) {
+        // If start equals end then array is either only 1 integer or end recursive calls
+        if (start == end) {
+            return;
+        // There are two elements in the array, swap positions of integers if needed
+        } else if (start == end-1) {
+            if (list[start] <= list[end]) { // if start is less than or equal to end than return function w/o swap
+                return;
+            } else { // swap integers
+                int temp = list[start]; // store start value in temporary variable
+                list[start] = list[end]; // swap
+                list[end] = temp; //swap
             }
-            pairCounter + 2; // count up by two for next pair
         }
 
+        // if base case of 1 or 2 elements in the array isn't met, calculate mid point
+        int mid = (end-start)/2;
+        // Recursive method call for left half of array
+        mergeSort(list, start, start + mid);
+        // Recursive method call for right half of array
+        mergeSort(list, start + mid + 1, end);
+        // Call merge method to merge array lists
+        merge(list, start, start + mid, end);
+    }
 
+    private static void merge(int[] list, int leftHalfStart, int rightHalfStart, int end) {
+        int leftHalfSize = rightHalfStart - leftHalfStart + 1;
+        int rightHalfSize = end - rightHalfStart;
 
+        int[] leftHalf = new int[leftHalfSize];
+        int[] rightHalf = new int[rightHalfSize];
 
+        // Loop through and assign left half values to leftHalf array
+        for (int i=0; i<leftHalfSize; ++i)
+            leftHalf[i] = list[leftHalfStart + i];
+        // Loop through and assign right half values to rightHalf array
+        for (int j=0; j<rightHalfSize; ++j)
+            rightHalf[j] = list[rightHalfStart + 1+ j];
 
+        int i = 0;
+        int j = 0;
 
-        // loop through array of values
-        for (int x = 0; x < (input.length - 1); x++){
-            minIndex = x; // current lowest value of array to compare against
-            // loop through remaining unsorted elements
-            for (int y = x + 1; y < input.length; y++){ // start at x + 1 since it is value next to x in array
-                if ((input[y]) < input[minIndex]){ // If int[y] is less than current lowest value, update minIndex
-                    minIndex = y; //update minIndex to reflect new min value
-                }
+        int k = leftHalfStart;
+        // Do while loop to merge rightHalf with leftHalf
+        while (i < leftHalfSize && j < rightHalfSize) {
+            // if leftHalf value is less than or equal to rightHalf value, then store leftHalf value first
+            if (leftHalf[i] <= rightHalf[j]) {
+                list[k] = leftHalf[i];
+                i++; // increment i
+            } else {
+                // else rightHalf value is less than or equal to leftHalf value, then store rightHalf value first
+                list[k] = rightHalf[j];
+                j++;
             }
-            int oldValue = input[x]; //Store old value
-            int newValue = input[minIndex]; // Store new value
-            input[minIndex] = oldValue; // Swap Values
-            input[x] = newValue; // Swap Values
-
+            k++;
         }
-        return input;
+
+        while (i < leftHalfSize) {
+            list[k] = leftHalf[i];
+            i++;
+            k++;
+        }
+
+        while (j < rightHalfSize) {
+            list[k] = rightHalf[j];
+            j++;
+            k++;
+        }
     }
 }

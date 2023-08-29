@@ -28,36 +28,36 @@ public class InsertionSort {
             System.out.println(arrayToSort[x]);
         }
 
-        // Code to generate a large list of integers
-        Integer[] numbers = new Integer[1000000];
-        Random rand = new Random();
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = rand.nextInt(1000000);
-        }
         // Start to tracking run time of algorithm
         long start = System.nanoTime();
-        // Declare int to store number found and call LinearSearch Method to Search large list of numbers
-        int foundNumberIndex = linearSearch(numberToFind, numbers);
+        // Declare array to store number found and call insertionSearch Method
+        int[] sortedArray = insertionSort(arrayToSort);
         // End to tracking run time of algorithm
         long end = System.nanoTime();
         System.out.println("Elapsed time in ns:" + (end - start)); // print run time
-        if (foundNumberIndex != -1){
-            System.out.println("Found number: " + numbers[foundNumberIndex]);
-        }
-        else {
-            System.out.println("Number not found");
+
+        // iterate through sorted array and print values
+        System.out.println("Sorted array values: ");
+        for (int x = 0; x < sortedArray.length; x++) {
+            System.out.println(sortedArray[x]);
         }
     }
 
     // Linear Search Method
-    public static int insertionSort(Comparable target, Comparable[] list) {
-        int index = 0;
-        while (index < list.length) {
-            if (list[index].compareTo(target) == 0)
-                return index;
-            else
-                index++;
+    public static int[] insertionSort(int[] input) {
+        // loop through list of values
+        for (int unsortedStart = 1; unsortedStart < input.length; unsortedStart++) {
+            // store value of value next to starting point
+            int nextInsert = input[unsortedStart];
+            int currentIndex = unsortedStart - 1; // store value of initial value or next value
+
+            // swap values until current indexed value is no longer lowest value or end of the list
+            while (currentIndex >= 0 && input[currentIndex] > nextInsert) {
+                input[currentIndex + 1] = input[currentIndex]; //swap
+                currentIndex--;
+            }
+            input[currentIndex + 1] = nextInsert; // update
         }
-        return -1;
+        return input;
     }
 }

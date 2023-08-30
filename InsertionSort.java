@@ -30,7 +30,7 @@ public class InsertionSort {
 
         // Start to tracking run time of algorithm
         long start = System.nanoTime();
-        // Declare array to store number found and call insertionSearch Method
+        // Declare array to store number found and call insertionSort Method
         int[] sortedArray = insertionSort(arrayToSort);
         // End to tracking run time of algorithm
         long end = System.nanoTime();

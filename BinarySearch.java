@@ -62,35 +62,48 @@ public class BinarySearch {
             }
         }
 
-        // if base case of 1 or 2 elements in the array isn't met, calculate mid point
+        // if base case of 1 or 2 elements in the array isn't met, calculate mid point, dividing array into halves
         int mid = (end-start) / 2;
+        // Recursively call mergeSort with left half of array
         Comparable[] leftHalf = mergeSort(list, start, start + mid);
+        // Recursively call mergeSort with right half of array
         Comparable[] rightHalf = mergeSort(list, start + mid + 1, end);
+        // Call merge function with sorted left and righ half of array
         return merge(leftHalf, rightHalf);
     }
 
     // method helper to merge sublists
     private static Comparable[] merge(Comparable[] left, Comparable[] right) {
         Comparable[] result = new Comparable[left.length + right.length];
+        // i is counter position of unsorted left half value, j is counter position of unsorted right half value
+        // k is counter for position of sorted array
         int i = 0, j = 0, k = 0;
 
+        // Do while loop to merge rightHalf with leftHalf
+        // iterate through sublists until end of both lists have been reached
         while (i < left.length && j < right.length) {
+            // if the i leftHalf value is less than or equal to i rightHalf value, then store leftHalf value first
             if (left[i].compareTo(right[j]) <= 0) {
-                result[k] = left[i];
-                i++;
+                result[k] = left[i]; // store in location k of array which is next sorted position
+                i++; // increment i, next unsorted position of left half array
             } else {
-                result[k] = right[j];
-                j++;
+                // else i rightHalf value is less than or equal to i leftHalf value, then store rightHalf value first
+                result[k] = right[j]; // store in location k of array which is next sorted position
+                j++; // increment j, next unsorted position of right half array
             }
-            k++;
+            k++; // increment array location of sorted portion of array
         }
 
+        // if overall array has an odd number of values, store last remaining value from left half array in sorted list
+        // if it exists
         while (i < left.length) {
             result[k] = left[i];
             i++;
             k++;
         }
 
+        // if overall array has an odd number of values, store last remaining value from left half array
+        // in sorted list if it exists
         while (j < right.length) {
             result[k] = right[j];
             j++;

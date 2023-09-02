@@ -1,8 +1,8 @@
 // Crewmate Class
-public class Crewmate {
+public interface Crewmate {
 
     // completeTask() abstract method
+    public abstract class completeTask(){
 
-    // sabatoge player p abstract method
-
+    }
 }

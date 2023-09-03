@@ -1,14 +1,10 @@
 // Imposter Interface
-public interface Imposter {
+public interface Impostor {
+    // freeze abstract method, that accepts a Player object and returns nothing
+    // any class that implements Impostor must provide a method definition for this method
+    public abstract void freeze(Player p);
 
-    // freeze player P abstract method
-    public abstract class freeze{
-
-    }
-
-    // sabatoge player p abstract method
-    public abstract class sabotage{
-
-    }
-
+    // sabatoge abstract method, that accepts a Player object p and doesn't return anything
+    // any class that implements Impostor must provide a method definition for this method
+    public abstract void sabotage(Player p);
 }

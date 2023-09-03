@@ -5,9 +5,13 @@
  * @version 1.1
  */
 public abstract class Player implements Comparable<Player> {
-    private String name;
-    private int susLevel;
+    private String name; // The Player’s name as a String.
+    private int susLevel; // This represents how suspicious a Player is; the higher, the more suspicious
+    // This represents if a Player is frozen,
+    // which will affect their ability to participate in some methods below.
     private boolean frozen;
+
+
     // It's ok to move around elemnts of this array, but taking out Players or
     // manually adding them will result in errors.
     private static Player[] players;
@@ -46,7 +50,7 @@ public abstract class Player implements Comparable<Player> {
      * This method will be overridden by any child class and will be used to
      * have an emergency meeting.
      */
-    //YOUR CODE HERE
+    public abstract void emergencyMeeting();
 
     /**
      * This method is the compareTo method from the Comparable interface.
@@ -55,8 +59,18 @@ public abstract class Player implements Comparable<Player> {
      * @return int this value will tell you the ordering of 2 Player objects
      */
     public int compareTo(Player p) {
-        // YOUR CODE HERE
-        return 0; // delete this once you have implemented this method
+        // compare suslevels of two players,
+        if (this.susLevel == p.susLevel){
+            return 0;
+        }
+        // else if current Player's susLevel is more than Player passed in, return positive number
+        else if (this.susLevel > p.susLevel){
+            return 1;
+        }
+        // else current Player's susLevel is less than Player passed in, return negative number
+        else{
+            return -1;
+        }
     }
 
     /**

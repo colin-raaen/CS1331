@@ -14,6 +14,7 @@ public abstract class Player implements Comparable<Player> {
 
     // It's ok to move around elemnts of this array, but taking out Players or
     // manually adding them will result in errors.
+    // Declaration of array of players
     private static Player[] players;
 
     /**
@@ -31,9 +32,12 @@ public abstract class Player implements Comparable<Player> {
         } else {
             this.susLevel = 0;
         }
+        // If players array is null
         if (players == null) {
+            // Create a new Player
             players = new Player[1];
             players[0] = this;
+        // Players exist in the array
         } else {
             int length = players.length + 1;
             Player[] temp = players;

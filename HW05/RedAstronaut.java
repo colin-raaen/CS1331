@@ -7,7 +7,8 @@ public class RedAstronaut extends Player implements Impostor {
 
     // Constructor method for RedAstronaut, less specific constructor that only takes name as input
     public RedAstronaut (String name) {
-        this(name, DEFAULT_susLevel, DEFAULT_SKILL); // call more specific constructor
+        // call more specific constructor, use default susLevel and default skill if just a name is used as input
+        this(name, DEFAULT_susLevel, DEFAULT_SKILL);
     }
 
     // Constructor chaining to add another constructor in the same class, more specific constructue

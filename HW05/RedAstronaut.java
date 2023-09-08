@@ -18,9 +18,21 @@ public class RedAstronaut extends Player implements Impostor {
         // Set default values for susLevel and skill
 
     }
+
+    // Implement the emergencyMeeting abstract method from the Player class
     @Override
     public void emergencyMeeting(){
-        return;
+        // Sort array of players by susLevel
+
+        // Compare first and second values of Players susLevel's in array
+
+        // if values are equal, there is a tie, do not freeze any player
+
+        // else freeze highest value susLevel Player, w/o calling freeze method
+
+        // Check if game is over
+
+        return; // break
     }
 
     // Implement the freeze method from the Impostor interface

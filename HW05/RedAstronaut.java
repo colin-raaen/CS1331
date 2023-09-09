@@ -22,7 +22,21 @@ public class RedAstronaut extends Player implements Impostor {
     // Implement the emergencyMeeting abstract method from the Player class
     @Override
     public void emergencyMeeting(){
+        // Get players array using getter method and store
+        Player[] players = getPlayers();
+
+        // Temporary test to see if getPlayers method works to populate array of players
+        if (players == null){
+            System.out.println("players array is null");
+        }
+        else {
+            for (int i = 0; i < players.length; i++){
+                System.out.println(players[i]);
+            }
+        }
+
         // Sort array of players by susLevel
+
 
         // Compare first and second values of Players susLevel's in array
 

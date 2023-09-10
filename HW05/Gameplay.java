@@ -6,10 +6,23 @@ public class Gameplay {
         RedAstronaut redAstronaut3 = new RedAstronaut("Player3", 30, "expert");
         RedAstronaut redAstronaut4 = new RedAstronaut("Player4", 30, "expert");
         RedAstronaut redAstronaut5 = new RedAstronaut("Player5", 25, "expert");
+        BlueAstronaut blueAstronaut1 = new BlueAstronaut("Player6", 25, 6, 25);
 
         // Call the emergencyMeeting method for each RedAstronaut
-        redAstronaut1.freeze(redAstronaut5);
+        blueAstronaut1.completeTask();
+        blueAstronaut1.completeTask();
+        blueAstronaut1.completeTask();
+        blueAstronaut1.completeTask();
+        blueAstronaut1.completeTask();
+        redAstronaut1.sabotage(blueAstronaut1);
+        redAstronaut1.freeze(blueAstronaut1);
+
+
         redAstronaut2.emergencyMeeting();
         redAstronaut1.emergencyMeeting();
+        boolean equalsCheck1 = redAstronaut1.equals(redAstronaut5);
+        System.out.println(equalsCheck1);
+
+
     }
 }

@@ -24,6 +24,10 @@ public class RedAstronaut extends Player implements Impostor {
     // Implement the emergencyMeeting abstract method from the Player class
     @Override
     public void emergencyMeeting(){
+        // if player calling emergency meeting is frozen then exit
+        if (this.isFrozen() == true){
+            return;
+        }
         // Get players array using getter method and store in a new array called 'players'
         Player[] players = getPlayers();
 
@@ -88,14 +92,9 @@ public class RedAstronaut extends Player implements Impostor {
     // Implement the freeze method from the Impostor interface
     @Override
     public void freeze(Player p){
-        // an Impostor cannot freeze another Imposter, check if both players are impostors, exit if true
-        if (this instanceof Impostor && p instanceof Impostor) { return; }
-
-        // if calling player is an Imposter and is already frozen then exit
-        if (this instanceof Impostor && this.isFrozen() == true) { return; }
-
-        // if player passed in is an impostor or if frozen, if yes to either than exit
-        if (p instanceof Impostor || p.isFrozen() == true) { return; }
+        // an Impostor cannot freeze another Imposter, OR if the calling player is already frozen then exit
+        // OR if player passed in is already frozen then exit
+        if (p instanceof Impostor || this.isFrozen() == true || p.isFrozen() == true) { return; }
 
         // Check if susLevel of RedAstronaut is lower than SusLevel of player P then freeze player
         if (this.getSusLevel() < p.getSusLevel()){
@@ -115,19 +114,54 @@ public class RedAstronaut extends Player implements Impostor {
         // Call method to check if game is over
         gameOver();
 
-        return; // exit
+        return; // exit method
     }
 
     // Implement the abstract method from the Impostor interface
     @Override
     public void sabotage(Player p){
-        return;
+        // an Impostor cannot sabotage another Imposter, check if player P is an impostor, exit if true
+        // OR if the calling player is already frozen then exit OR if player passed in is already frozen then exit
+        if (p instanceof Impostor || this.isFrozen() == true || p.isFrozen() == true) { return; }
+
+        // Variable to store current Player P susLevel
+        int currentSusLevel = p.getSusLevel();
+
+        // If Imposters susLevel is under 20, increase CrewMates SusLevel by 50%
+        if (this.getSusLevel() < 20){
+            double newSusLevel = (currentSusLevel + (currentSusLevel * .5));
+            // cast newly calculated double to int
+            int newSusLevelInt = (int) newSusLevel;
+            // Set using new int
+            p.setSusLevel(newSusLevelInt);
+        }
+        // else increase by 25%
+        else{
+            double newSusLevel = (currentSusLevel + (currentSusLevel * .25));
+            // cast newly calculated double to int
+            int newSusLevelInt = (int) newSusLevel;
+            // Set using new int
+            p.setSusLevel(newSusLevelInt);
+        }
+
+        //Test
+        Player[] players = getPlayers();
+        for(int i=0; i<players.length; i++){
+            System.out.println(players[i]);
+        }
+
+        return; // exit method
     }
 
     // Implement method to check if Reds are equal
     @Override
     public boolean equals(Object o){
-        return false;
+        if (o instanceof RedAstronaut) {
+            RedAstronaut redCheck = (RedAstronaut) o;
+            return this.getName().equals(redCheck.getName()) && this.isFrozen() == redCheck.isFrozen()
+                    && this.getSusLevel() == redCheck.getSusLevel() && this.skill.equals(redCheck.skill);
+        }
+        return false; // else return false
     }
 
     // Implement toString Override for RedAstronaut

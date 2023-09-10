@@ -88,14 +88,29 @@ public class RedAstronaut extends Player implements Impostor {
     // Implement the freeze method from the Impostor interface
     @Override
     public void freeze(Player p){
+        // an Impostor cannot freeze another Imposter, check if both players are impostors, exit if true
+        if (this instanceof Impostor && p instanceof Impostor) { return; }
+
+        // if calling player is an Imposter and is already frozen then exit
+        if (this instanceof Impostor && this.isFrozen() == true) { return; }
+
         // if player passed in is an impostor or if frozen, if yes to either than exit
-        if (p.skill == null || p.isFrozen == true){
-            return;
+        if (p instanceof Impostor || p.isFrozen() == true) { return; }
+
+        // Check if susLevel of RedAstronaut is lower than SusLevel of player P then freeze player
+        if (this.getSusLevel() < p.getSusLevel()){
+            p.setFrozen(true);
+        }
+        // else if freeze fails, double the RedAstronauts susLevel
+        else if (this.getSusLevel() > p.getSusLevel()){
+            this.setSusLevel(this.getSusLevel() * 2);
         }
 
-        // Check if susLevel of RedAstronaut is lower than SusLevel of player P
-
-        // else if freeze fails, double the RedAstronauts susLevel
+        //Test
+        Player[] players = getPlayers();
+        for(int i=0; i<players.length; i++){
+            System.out.println(players[i]);
+        }
 
         // Call method to check if game is over
         gameOver();
@@ -112,12 +127,18 @@ public class RedAstronaut extends Player implements Impostor {
     // Implement method to check if Reds are equal
     @Override
     public boolean equals(Object o){
-        return;
+        return false;
     }
 
     // Implement toString Override for RedAstronaut
     @Override
     public String toString(){
-        return;
+        // Use getter method to see if current player is frozen
+        boolean frozenBoolean = this.isFrozen();
+        // Use a ternary operation to determine the frozenString
+        String frozenString = frozenBoolean ? "frozen" : "not frozen";
+
+        return "My name is " + this.getName() + ", and I have a susLevel of "
+                + this.getSusLevel() + ". I am currently " + frozenString + ". I am an " + this.skill + " player!";
     }
 }

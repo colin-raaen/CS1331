@@ -8,6 +8,7 @@ public class Gameplay {
         RedAstronaut redAstronaut5 = new RedAstronaut("Player5", 25, "expert");
 
         // Call the emergencyMeeting method for each RedAstronaut
+        redAstronaut1.freeze(redAstronaut5);
         redAstronaut2.emergencyMeeting();
         redAstronaut1.emergencyMeeting();
     }

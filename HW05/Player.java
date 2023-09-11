@@ -69,11 +69,11 @@ public abstract class Player implements Comparable<Player> {
         }
         // else if current Player's susLevel is more than Player passed in, return positive number
         else if (this.susLevel > p.susLevel){
-            return -1;
+            return 1;
         }
         // else current Player's susLevel is less than Player passed in, return negative number
         else{
-            return 1;
+            return -1;
         }
     }
 

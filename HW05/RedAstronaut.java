@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class RedAstronaut extends Player implements Impostor {
     // Instance variable for Skill
@@ -31,43 +30,40 @@ public class RedAstronaut extends Player implements Impostor {
         // Get players array using getter method and store in a new array called 'players'
         Player[] players = getPlayers();
 
-        /** Utilize Arrays.sort method to iterate through players and sort by susLevel.
-
-         */
-
-        // Sort the array in descending order based on susLevel using compareTo Method from Players.java
+        // Sort the array in descending order based on susLevel using compareTo Method defined from Players.java
         Arrays.sort(players);
 
-
         // variables to store which players to compare and freeze
-        int mostSus = 0;
-        int secondMostSus = 1;
-        int susLevelComparison = 0;
+        int mostSus = players.length - 1;
+        int secondMostSus = players.length - 2;
+        int susLevelComparisonResult = 0;
 
-        // if Player that called the emergency meeting has highest susLevel then update comparisons accordingly
-        if (this == players[mostSus]){
-            // update next highest sus players in the array
-            mostSus = 1;
-            secondMostSus = 2;
-            // Call Compare method for first and second Players in the sorted array
-            susLevelComparison = players[mostSus].compareTo(players[secondMostSus]);
+        // while loop to check if highest susLevel is the current Player or if highest suslevel is Frozen
+        // either either evaluates to true, move to the next highest in the array of Players until not this or frozen
+        while (this == players[mostSus] || players[mostSus].isFrozen()){
+            mostSus--; // increment mostSus
+            secondMostSus--; // increment SecondMostSus
         }
-        else{
-            // Call Compare method for first and second Players in the sorted array
-            susLevelComparison = players[mostSus].compareTo(players[secondMostSus]);
+
+        // if Second most sus is frozen or current Player than increment for comparison puruposes
+        while (this == players[mostSus] || players[secondMostSus].isFrozen()){
+            secondMostSus--;; // increment SecondMostSus
         }
+
+        // Call Compare method for first and second Players in the sorted array
+        susLevelComparisonResult = players[secondMostSus].compareTo(players[mostSus]);
 
         // if players[1] sus level is higher than players[2], players[1] is sole highest susLevel, freeze player
-        if (susLevelComparison == 1){
+        if (susLevelComparisonResult == -1){
             // call setter method for player to freeze
             players[mostSus].setFrozen(true);
         }
         // Exception handling else if check to make sure players[2] isn't higher
-        else if (susLevelComparison == -1){
+        else if (susLevelComparisonResult == 1){
             System.out.println("players[1] susLevel is higher than players[0]");
         }
         // Exception handling else if check if top two SusLevels are equal, if so, no player will be frozen
-        else if (susLevelComparison == 0){
+        else if (susLevelComparisonResult == 0){
             System.out.println("players[1] susLevel is equal to players[0], do not freeze player");
             return;
         }
@@ -165,7 +161,17 @@ public class RedAstronaut extends Player implements Impostor {
         // Use a ternary operation to determine the frozenString
         String frozenString = frozenBoolean ? "frozen" : "not frozen";
 
-        return "My name is " + this.getName() + ", and I have a susLevel of "
-                + this.getSusLevel() + ". I am currently " + frozenString + ". I am an " + this.skill + " player!";
+        // If susLevel is equal or less than 15, print in lower case
+        if(this.getSusLevel() <= 15){
+            return "My name is " + this.getName() + ", and I have a susLevel of "
+                    + this.getSusLevel() + ". I am currently " + frozenString + ". I am an " + this.skill + " player!";
+        }
+        // else if greater than 15, print in upper case
+        else{
+            return "MY NAME IS " + this.getName().toUpperCase() + ", AND I HAVE A SUSLEVEL OF "
+                    + this.getSusLevel() + ". I AM CURRENTLY " + frozenString.toUpperCase() + ". I AM AN "
+                    + this.skill.toUpperCase() + " PLAYER!";
+        }
+
     }
 }

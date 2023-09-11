@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class BlueAstronaut extends Player implements Crewmate {
     // Instance variable for Crewmate
     private int numTasks;
@@ -31,6 +33,51 @@ public class BlueAstronaut extends Player implements Crewmate {
         // Get players array using getter method and store in a new array called 'players'
         Player[] players = getPlayers();
 
+        // Sort the array in descending order based on susLevel using compareTo Method defined from Players.java
+        Arrays.sort(players);
+
+        // variables to store which players to compare and freeze
+        int mostSus = players.length - 1; // last array value (highest susLevel)
+        int secondMostSus = players.length - 2; // second to last array value (second highest susLevel)
+        int susLevelComparisonResult = 0;
+
+        // while loop to check if highest susLevel is the current Player or if highest suslevel is Frozen
+        // either either evaluates to true, move to the next highest in the array of Players until not this or frozen
+        while (players[mostSus].isFrozen() || players[secondMostSus].isFrozen()){
+            if (players[mostSus].isFrozen()){
+                mostSus--;
+                secondMostSus--;
+            }
+            if (players[secondMostSus].isFrozen()){
+                secondMostSus--;; // increment SecondMostSus
+            }
+        }
+
+        // Call Compare method for first and second Players in the sorted array
+        susLevelComparisonResult = players[secondMostSus].compareTo(players[mostSus]);
+
+        // if players[1] sus level is higher than players[2], players[1] is sole highest susLevel, freeze player
+        if (susLevelComparisonResult == -1){
+            // call setter method for player to freeze
+            players[mostSus].setFrozen(true);
+        }
+        // Exception handling else if check to make sure players[2] isn't higher
+        else if (susLevelComparisonResult == 1){
+            System.out.println("players[1] susLevel is higher than players[0]");
+        }
+        // Exception handling else if check if top two SusLevels are equal, if so, no player will be frozen
+        else if (susLevelComparisonResult == 0){
+            System.out.println("players[1] susLevel is equal to players[0], do not freeze player");
+            return;
+        }
+
+        for(int i=0; i<players.length; i++){
+            System.out.println(players[i]);
+        }
+
+        // Call method to check if game is over
+        gameOver();
+
         return;
     }
 
@@ -38,7 +85,12 @@ public class BlueAstronaut extends Player implements Crewmate {
     @Override
     public void completeTask(){
         // a Crewmate cannot be frozen, if yes then exit
-        if (this.isFrozen() == true) { return; }
+        if (this.isFrozen()) { return; }
+        // If Player has already completed all their tasks, print message and exit
+        else if(this.numTasks <= 0) {
+            // Exit
+            return;
+        }
 
         // If taskSpeed is greater than 20, subtract 2 from numTasks.
         if (this.taskSpeed > 20){
@@ -62,7 +114,7 @@ public class BlueAstronaut extends Player implements Crewmate {
             int newSusLevelInt = (int) newSusLevel;
             this.setSusLevel(newSusLevelInt);
         }
-        System.out.println(this);
+
         return; // exit method
     }
 
@@ -86,7 +138,16 @@ public class BlueAstronaut extends Player implements Crewmate {
         // Use a ternary operation to determine the frozenString
         String frozenString = frozenBoolean ? "frozen" : "not frozen";
 
-        return "My name is " + this.getName() + ", and I have a susLevel of "
-                + this.getSusLevel() + ". I am currently " + frozenString + ". I have " + this.numTasks + " left over.";
+        // If susLevel is equal or less than 15, print in lower case
+        if (this.getSusLevel() <= 15){
+            return "My name is " + this.getName() + ", and I have a susLevel of "
+                    + this.getSusLevel() + ". I am currently " + frozenString + ". I have " + this.numTasks + " left over.";
+        }
+        // else, susLevel is greater than 15, print in all caps
+        else{
+            return "MY NAME IS " + this.getName().toUpperCase() + ", AND I HAVE A SUSLEVEL OF "
+                    + this.getSusLevel() + ". I AM CURRENTLY " + frozenString.toUpperCase()
+                    + ". I HAVE " + this.numTasks + " LEFT OVER.";
+        }
     }
 }

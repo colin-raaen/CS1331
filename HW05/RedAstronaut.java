@@ -32,19 +32,12 @@ public class RedAstronaut extends Player implements Impostor {
         Player[] players = getPlayers();
 
         /** Utilize Arrays.sort method to iterate through players and sort by susLevel.
-            custom Comparator<Player> object is created using an anonymous inner class.
-            This custom comparator specifies how two Player objects should be compared for sorting purposes
-            new Comparator<Player>() is used as an argument to the Arrays.sort method.
-            This tells Arrays.sort how to compare and sort the elements in the players array.
+
          */
-        Arrays.sort(players, new Comparator<Player>() {
-            @Override
-            // compare method where compare logic is defined explicityly comparing player 1 to player 2
-            public int compare(Player player1, Player player2) {
-                // use getter method to get SusLevel of each player and compare
-                return Integer.compare(player2.getSusLevel(), player1.getSusLevel());
-            }
-        });
+
+        // Sort the array in descending order based on susLevel using compareTo Method from Players.java
+        Arrays.sort(players);
+
 
         // variables to store which players to compare and freeze
         int mostSus = 0;
@@ -64,7 +57,6 @@ public class RedAstronaut extends Player implements Impostor {
             susLevelComparison = players[mostSus].compareTo(players[secondMostSus]);
         }
 
-
         // if players[1] sus level is higher than players[2], players[1] is sole highest susLevel, freeze player
         if (susLevelComparison == 1){
             // call setter method for player to freeze
@@ -77,6 +69,7 @@ public class RedAstronaut extends Player implements Impostor {
         // Exception handling else if check if top two SusLevels are equal, if so, no player will be frozen
         else if (susLevelComparison == 0){
             System.out.println("players[1] susLevel is equal to players[0], do not freeze player");
+            return;
         }
 
         for(int i=0; i<players.length; i++){

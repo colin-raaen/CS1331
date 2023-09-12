@@ -140,8 +140,7 @@ public class BlueAstronaut extends Player implements Crewmate {
 
         // If susLevel is equal or less than 15, print in lower case
         if (this.getSusLevel() <= 15){
-            return "My name is " + this.getName() + ", and I have a susLevel of "
-                    + this.getSusLevel() + ". I am currently " + frozenString + ". I have " + this.numTasks + " left over.";
+            return super.toString() + ". I have " + this.numTasks + " left over.";
         }
         // else, susLevel is greater than 15, print in all caps
         else{

@@ -13,13 +13,19 @@ public class FahrenheitToCelsiusExceptions {
                 fahrenheit = input.nextInt(); // Cleans up new line at end of user input nothing to read so it waits for data
                 success = true;
             }
-            catch (InputMismatchException e){
-                input.nextLine(); // cleans up new line character left by stream
-                System.out.println("Sorry that wasn't an int."); // Print error message
-                System.out.println("Please re-run the program again"); // Print error message
+            catch (InputMismatchException | ArithmeticException e){
+                System.out.println("Sorry that wasn't an valid value."); // Print error message
+                System.out.println("Please run the program again."); // Print error message
+                System.out.println("However, enter a non-zero integer."); // Print error message
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage()); // Print error message
+            }
+            finally {
+                input.nextLine(); // Cleans up new line at end of user input nothing to read so it waits for data
             }
         }
-        input.nextLine(); // Cleans up new line at end of user input nothing to read so it waits for data
+
         System.out.print("Enter day of the week, month and year: "); // Prompt user for day of the week
         String day = input.nextLine();
         double celsius = (5.0/9) * (fahrenheit - 32); // Convert to Celsius

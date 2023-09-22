@@ -1,4 +1,5 @@
-public abstract class Pet implements Comparable<Pet> {
+public abstract class Pet {
+    // Instance variables for Pets Class
     private String name; // The name of the Pet as a String.
     private double health; // double representing the Pets health
     private int painLevel; // int representing Pet's pain level
@@ -52,7 +53,14 @@ public abstract class Pet implements Comparable<Pet> {
 
     // speak method that prints out name of pet
     public void speak(){
-        System.out.println("Hello! My name is " + this.name);
+        // If painLevel is greater than 5 prints the message in UPPERCASE
+        if (this.painLevel > 5){
+            System.out.println("HELLO! MY NAME IS " + this.name.toUpperCase());
+        }
+
+        else{ // else print lower case
+            System.out.println("Hello! My name is " + this.name);
+        }
     }
 
     // Equals method to check if two pets have the same name

@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 public class FileTest {
     public static void main(String[] args){
         String inputFileName = args[0]; // take the filename from the command line and store in a String variable
-        String word = args[1]; // store the word from the command line to search for in the file
+        String word = args[1]; // store the word to search for from the command line in String variable "word"
 
         // create a new file object and store the matching name file into the new object
         // Using file path, starting with location

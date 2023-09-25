@@ -17,7 +17,7 @@ public class FileTest {
 
         try{
             fileScan = new Scanner(fileIn); // constructs fileScan with fileIn
-            filePrint = new PrintWriter(fileOut); // constructs filePrint with fileOut
+
             int lineCount = 0; // initialize int counter variable for number of lines in file
             System.out.printf("Lines in %s containing %s:\n", args[0], args[1]);
             while (fileScan.hasNextLine()){ // While there is another line that exists in the file being scanned

@@ -21,9 +21,10 @@ public class Clinic {
     }
 
     // Method
-    public String nextDay(File f) throws FileNotFoundException{
+    public String nextDay(File f) throws FileNotFoundException, InvalidPetException{
         Scanner fileScan = null; // Define null Scanner for file scan
         Scanner petScan = null; // define null scanner for pet scan
+        Scanner userInput = null; // define null Scanner object for user input
         String[] petNames = null; // define array of Strings to store values parsed from CSV file
         String[] petTypes = null;; // define array of Strings that stores petTypes
 
@@ -32,6 +33,7 @@ public class Clinic {
 
         try {
             fileScan = new Scanner(f); // constructs fileScan with fileIn
+            userInput = new Scanner(System.in); // constructs userInput to collect user input
             String line = null; // define string to store pet information
 
             while (fileScan.hasNextLine()) { // While there is another line that exists in the file being scanned
@@ -39,7 +41,7 @@ public class Clinic {
                 petScan = new Scanner(line); // Create new Scanner object with String "line" as input
                 petScan.useDelimiter(","); // Use delimiter to parse .csv values at comma
                 petNames[index] = petScan.next(); // Store first string value in array of names
-                petTypes[index] = petScan.next(); // Store first string value in array of names
+                petTypes[index] = petScan.next(); // Store next string value in array of pet types
                 petScan.nextDouble(); // consume double
                 allTimes[index] = petScan.nextInt(); // Store time of appointment
                 index++; // increment index value
@@ -47,6 +49,18 @@ public class Clinic {
                 // Print statement with details to and prompt user for health of pet
                 System.out.println("Consultation for " + petNames[index] + " the " + petTypes[index] + " at "
                         + allTimes[index] + ".\nWhat is the health of " + petNames[index] + "?\n");
+
+                // if pet type isn't valid entry
+                if (!petTypes[index].equals("Cat") || !petTypes[index].equals("Dog")) {
+                    // throw new exception, calling InvalidPetException, which is extended in method name
+                    throw new InvalidPetException();
+                }
+
+                int petHealth = 0; // declare int to store user input
+                // store user input
+                do{
+                    petHealth = userInput.nextInt();
+                } while (petHealth)
 
 
             }

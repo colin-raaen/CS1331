@@ -8,6 +8,8 @@ public class Clinic {
     private File patientFile; // private variable File with patient information
     private int day; // define variable int that is day
 
+    private static Pet[] pets = null; // define array of Pets to store values parsed from CSV file
+
     // Constructor for Clinic, defines variable patientFile using parameter
     public Clinic(File file){
         this.patientFile = file; // Assign file that contains patient info to patientFile
@@ -25,10 +27,6 @@ public class Clinic {
         Scanner fileScan = null; // Define null Scanner for file scan
         Scanner petScan = null; // define null scanner for pet scan
         Scanner userInput = null; // define null Scanner object for user input
-        String[] petNames = null; // define array of Strings to store values parsed from CSV file
-        String[] petTypes = null;; // define array of Strings that stores petTypes
-
-        int[] allTimes = new int[10]; // define array to store appointment times
         int index = 0; // int to count index of arrays
 
         try {
@@ -40,29 +38,77 @@ public class Clinic {
                 line = fileScan.nextLine(); // Scan next line into String variable
                 petScan = new Scanner(line); // Create new Scanner object with String "line" as input
                 petScan.useDelimiter(","); // Use delimiter to parse .csv values at comma
-                petNames[index] = petScan.next(); // Store first string value in array of names
-                petTypes[index] = petScan.next(); // Store next string value in array of pet types
-                petScan.nextDouble(); // consume double
-                allTimes[index] = petScan.nextInt(); // Store time of appointment
-                index++; // increment index value
+                String petName = petScan.next(); // Store first string value in array of names
+                String petType = petScan.next(); // Store next string value in array of pet types
+                double dogDroolRate; // declare variable to store drool rate if dog
+                int catMiceCaught; // declare int variable to store miceCaught if cat
 
-                // Print statement with details to and prompt user for health of pet
-                System.out.println("Consultation for " + petNames[index] + " the " + petTypes[index] + " at "
-                        + allTimes[index] + ".\nWhat is the health of " + petNames[index] + "?\n");
+                if (petType.equals("Dog")){ // if petType is a Dog
+                    dogDroolRate = petScan.nextDouble(); // store dog double drool rate
+                }
+                else if (petType.equals("Cat")){ // else if pet type is a Cat
+                    catMiceCaught = petScan.nextInt(); // store cat int miceCaught
+                }
+
+                int appointmentTime = petScan.nextInt(); // Store time of appointment
+
+                double petHealth = 0; // declare int to store user input
+
+                // do-while loop to continuously prompt user for an int for pet's health
+                do{
+                    // Print statement with details to and prompt user for health of pet
+                    System.out.println("Consultation for " + petName + " the " + petType + " at "
+                            + appointmentTime + ".\nWhat is the health of " + petName + "?\n");
+
+                    // if input provided by user is an int
+                    if (userInput.hasNextInt()) {
+                        petHealth = userInput.nextDouble(); // store user input in vairalbe
+                        break; // Exit the loop if the input is an integer
+                    }
+                    else { // if input is not an integer
+                        userInput.nextLine(); // Consume the invalid input
+                    }
+                } while (true); // continue to reprompt the user until an int is input
+
 
                 // if pet type isn't valid entry
-                if (!petTypes[index].equals("Cat") || !petTypes[index].equals("Dog")) {
+                if (!petType.equals("Cat") || !petType.equals("Dog")) {
                     // throw new exception, calling InvalidPetException, which is extended in method name
                     throw new InvalidPetException();
                 }
 
-                int petHealth = 0; // declare int to store user input
-                // store user input
+                int painLevel = 0; // declare int to store user input for pain level
+
+                // do-while loop to continuously prompt user for an int for pet's health
                 do{
-                    petHealth = userInput.nextInt();
-                } while (petHealth)
+                    // Print statement with details to and prompt user for health of pet
+                    System.out.println("On a scale of 1 to 10, how much pain is " + petName + "in right now?\n");
+
+                    // if input provided by user is an int
+                    if (userInput.hasNextInt()) {
+                        painLevel = userInput.nextInt(); // store user input in vairalbe
+                        break; // Exit the loop if the input is an integer
+                    }
+                    else { // if input is not an integer
+                        userInput.nextLine(); // Consume the invalid input
+                    }
+                } while (true); // continue to reprompt the user until an int is input
+
+                if (petType.equals("Dog")){ // if petType is a Dog
+                    // create dog object with values scanned from file
+                    Dog petCreated = new Dog(petName, petHealth, painLevel, dogDroolRate);
+                }
+                else if (petType.equals("Cat")){ // else if pet type is a Cat
+                    // create cat object with values scanned from file
+                    Cat petCreated = new Cat(petName, petHealth, painLevel, catMiceCaught);
+                }
 
 
+                petCreated.speak(); // Call speak method
+
+                petCreated.treat(); // call treat method
+
+                index++; // increment index value
             }
         }
         catch (FileNotFoundException e){ // Exception handler if a file doesn't exist

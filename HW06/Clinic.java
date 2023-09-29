@@ -28,6 +28,7 @@ public class Clinic {
         Scanner petScan = null; // define null scanner for pet scan
         Scanner userInput = null; // define null Scanner object for user input
         int index = 0; // int to count index of arrays
+        String updatedPatientInfo = null; // String to store updated patient information that will be returned
 
         try {
             fileScan = new Scanner(f); // constructs fileScan with fileIn
@@ -40,8 +41,8 @@ public class Clinic {
                 petScan.useDelimiter(","); // Use delimiter to parse .csv values at comma
                 String petName = petScan.next(); // Store first string value in array of names
                 String petType = petScan.next(); // Store next string value in array of pet types
-                double dogDroolRate; // declare variable to store drool rate if dog
-                int catMiceCaught; // declare int variable to store miceCaught if cat
+                double dogDroolRate = -1; // declare variable to store drool rate if dog, assign a sentinel value
+                int catMiceCaught = -1; // declare int variable to store miceCaught if cat, assign a sentinel value
 
                 if (petType.equals("Dog")){ // if petType is a Dog
                     dogDroolRate = petScan.nextDouble(); // store dog double drool rate
@@ -95,19 +96,49 @@ public class Clinic {
                 } while (true); // continue to reprompt the user until an int is input
 
                 if (petType.equals("Dog")){ // if petType is a Dog
-                    // create dog object with values scanned from file
-                    Dog petCreated = new Dog(petName, petHealth, painLevel, dogDroolRate);
+                    // if no value has been assigned to dogDroolRate, than call Dog constructor without DroolReate param
+                    if (dogDroolRate == -1){
+                        // create dog object with values scanned from file
+                        Dog petCreated = new Dog(petName, petHealth, painLevel);
+                        pets[index] = petCreated; // assign Dog to pets array
+                    }
+                    else{ // dogDroolRate has been assigned, call with assigned dogDroolRate
+                        // create dog object with values scanned from file
+                        Dog petCreated = new Dog(petName, petHealth, painLevel, dogDroolRate);
+                        pets[index] = petCreated; // assign Dog to pets array
+                    }
+
                 }
                 else if (petType.equals("Cat")){ // else if pet type is a Cat
-                    // create cat object with values scanned from file
-                    Cat petCreated = new Cat(petName, petHealth, painLevel, catMiceCaught);
+                    // if no value has been assigned to catMiceCaught, call Cat constructor without miceCaught
+                    if (catMiceCaught == -1){
+                        // create cat object with values scanned from file
+                        Cat petCreated = new Cat(petName, petHealth, painLevel);
+                        pets[index] = petCreated; // assign Cat to pets array
+                    }
+                    // else value has been assigned to miceCaught, call contructor with miceCaught
+                    else{
+                        // create cat object with values scanned from file
+                        Cat petCreated = new Cat(petName, petHealth, painLevel, catMiceCaught);
+                        pets[index] = petCreated; // assign Cat to pets array
+                    }
                 }
 
+                pets[index].speak(); // Call speak method
 
-                petCreated.speak(); // Call speak method
+                // call treat method, store time taken that is returned from method call
+                int timeTaken = pets[index].treat();
+                int exitTime = appointmentTime + timeTaken; // calculate exit time
 
-                petCreated.treat(); // call treat method
-
+                if (petType.equals("Dog")){
+                    // set string value to concat
+                    updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+dogDroolRate+","+"Day "
+                            +day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
+                }
+                else if (petType.equals("Cat")){ // else if pet type is a Cat
+                    updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+catMiceCaught+
+                            ","+"Day "+day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
+                }
                 index++; // increment index value
             }
         }
@@ -119,13 +150,41 @@ public class Clinic {
                 fileScan.close(); // Close Scanner object and subsequently the file
             }
         }
-        return null;
-
-
+        day++; // increment day after scanning file and updating patients information
+        return updatedPatientInfo; // return string with updated patients information from scanned file
     }
 
     // Method
     public String nextDay(String fileName) throws FileNotFoundException{
+        return null;
+    }
+
+    // method to write the strings on updated patient information to file
+    public boolean addToFile(String patientInfo){
+        PrintWriter filePrint = null; // initialize a PrintWriter object
+
+        // Create a Scanner with the String input parameter as its source
+        Scanner patientString = new Scanner(patientInfo);
+
+        try {
+            while (patientString.hasNextLine()){// While there is another line that exists in the file being scanned
+                String line = patientString.nextLine();
+            }
+        }
+        catch (Exception e){ // Exception handler if a file doesn't exist
+            System.out.println(e.getMessage()); // Print error message
+            return false;
+        }
+        finally {
+            if (filePrint != null) { // If filePrint isn't null i.e. File exists
+                filePrint.close(); // Close Scanner object and subsequently the file
+            }
+        }
+        return true;
+    }
+
+    // method
+    public String addTime(String timeIn, int treatmentTime){
         return null;
     }
 }

@@ -198,7 +198,7 @@ public class Clinic {
         return true;
     }
 
-    // method
+    // method to calculate additional time
     private String addTime(String timeIn, int treatmentTime){
         int timeInInt = Integer.parseInt(timeIn); // cast String of timeIn to Integer
         int hoursTimeIn = timeInInt / 60; // Extract hours

@@ -51,7 +51,7 @@ public class Clinic {
                     catMiceCaught = petScan.nextInt(); // store cat int miceCaught
                 }
 
-                String appointmentTime = petScan.next(); // Store time of appointment as a string
+                int appointmentTime = petScan.nextInt(); // Store time of appointment
 
                 double petHealth = 0; // declare int to store user input
 
@@ -68,13 +68,12 @@ public class Clinic {
                     }
                     else { // if input is not an integer
                         userInput.nextLine(); // Consume the invalid input
-                        System.out.println("Invalid input, pleaser enter an integer."); // print invalid input
                     }
                 } while (true); // continue to reprompt the user until an int is input
 
 
                 // if pet type isn't valid entry
-                if (!petType.equals("Cat") && !petType.equals("Dog")) {
+                if (!petType.equals("Cat") || !petType.equals("Dog")) {
                     // throw new exception, calling InvalidPetException, which is extended in method name
                     throw new InvalidPetException();
                 }
@@ -89,13 +88,10 @@ public class Clinic {
                     // if input provided by user is an int
                     if (userInput.hasNextInt()) {
                         painLevel = userInput.nextInt(); // store user input in vairalbe
-                        if (painLevel >= 1 && painLevel <= 10) {
-                            break; // Exit the loop if the input is an integer
-                        }
+                        break; // Exit the loop if the input is an integer
                     }
                     else { // if input is not an integer
                         userInput.nextLine(); // Consume the invalid input
-                        System.out.println("Invalid input, pleaser enter an integer."); // print invalid input
                     }
                 } while (true); // continue to reprompt the user until an int is input
 
@@ -132,7 +128,7 @@ public class Clinic {
 
                 // call treat method, store time taken that is returned from method call
                 int timeTaken = pets[index].treat();
-                String exitTime = addTime(appointmentTime, timeTaken); // call addTime method to calculate the exit time
+                int exitTime = appointmentTime + timeTaken; // calculate exit time
 
                 if (petType.equals("Dog")){
                     // set string value to concat
@@ -159,16 +155,8 @@ public class Clinic {
     }
 
     // Method
-    public String nextDay(String fileName) throws FileNotFoundException {
-        try {
-            return (nextDay(new File(fileName)));
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage()); // Print error message
-            return null; // exit and return null if try attempt fails
-        } catch (InvalidPetException e) {
-            System.out.println(e.getMessage()); // Handle the InvalidPetException if caused by Method call
-            return null; // exit and return null if try attempt fails
-        }
+    public String nextDay(String fileName) throws FileNotFoundException{
+        return null;
     }
 
     // method to write the strings on updated patient information to file
@@ -180,10 +168,7 @@ public class Clinic {
 
         try {
             while (patientString.hasNextLine()){// While there is another line that exists in the file being scanned
-                // peform scan of larger string parameter to see if
-
                 String line = patientString.nextLine();
-                filePrint.println(line); // print line number and line to new output file
             }
         }
         catch (Exception e){ // Exception handler if a file doesn't exist
@@ -199,19 +184,7 @@ public class Clinic {
     }
 
     // method
-    private String addTime(String timeIn, int treatmentTime){
-        int timeInInt = Integer.parseInt(timeIn); // cast String of timeIn to Integer
-        int hoursTimeIn = timeInInt / 60; // Extract hours
-        int minsTimeIn = timeInInt % 60; // Extract minutes
-
-        int hoursTreatmentTime = treatmentTime / 60; // Extract hours
-        int minsTreatmentTime  = treatmentTime % 60; // Extract minutes
-
-        // Perform addition
-        hoursTimeIn += hoursTreatmentTime; // add hours values
-        minsTimeIn += minsTreatmentTime; // add minutes values
-
-        // cast back final int back to string
-        return String.format("%02d%02d", hoursTimeIn, minsTimeIn);
+    public String addTime(String timeIn, int treatmentTime){
+        return null;
     }
 }

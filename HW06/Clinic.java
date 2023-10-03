@@ -8,7 +8,8 @@ public class Clinic {
     private File patientFile; // private variable File with patient information
     private int day; // define variable int that is day
 
-    private static Pet[] pets = null; // define array of Pets to store values parsed from CSV file
+    private static final int MAX_PETS = 100; // maximum number of pets to expect
+    private static Pet[] pets = new Pet[MAX_PETS]; // define array of Pets to store values parsed from CSV file
 
     // Constructor for Clinic, defines variable patientFile using parameter
     public Clinic(File file){
@@ -61,14 +62,14 @@ public class Clinic {
                     System.out.println("Consultation for " + petName + " the " + petType + " at "
                             + appointmentTime + ".\nWhat is the health of " + petName + "?\n");
 
-                    // if input provided by user is an int
-                    if (userInput.hasNextInt()) {
+                    // if input provided by user is a double
+                    if (userInput.hasNextDouble()) {
                         petHealth = userInput.nextDouble(); // store user input in vairalbe
                         break; // Exit the loop if the input is an integer
                     }
-                    else { // if input is not an integer
+                    else { // if input is not a double
                         userInput.nextLine(); // Consume the invalid input
-                        System.out.println("Invalid input, pleaser enter an integer."); // print invalid input
+                        System.out.println("Pleaser enter a double"); // print invalid input
                     }
                 } while (true); // continue to reprompt the user until an int is input
 
@@ -84,7 +85,7 @@ public class Clinic {
                 // do-while loop to continuously prompt user for an int for pet's health
                 do{
                     // Print statement with details to and prompt user for health of pet
-                    System.out.println("On a scale of 1 to 10, how much pain is " + petName + "in right now?\n");
+                    System.out.println("On a scale of 1 to 10, how much pain is " + petName + " in right now?\n");
 
                     // if input provided by user is an int
                     if (userInput.hasNextInt()) {
@@ -95,7 +96,7 @@ public class Clinic {
                     }
                     else { // if input is not an integer
                         userInput.nextLine(); // Consume the invalid input
-                        System.out.println("Invalid input, pleaser enter an integer."); // print invalid input
+                        System.out.println("Please enter a number"); // print invalid input
                     }
                 } while (true); // continue to reprompt the user until an int is input
 
@@ -128,6 +129,9 @@ public class Clinic {
                     }
                 }
 
+                int testPain = pets[index].getPainLevel();
+                System.out.println(testPain);
+
                 pets[index].speak(); // Call speak method
 
                 // call treat method, store time taken that is returned from method call
@@ -135,13 +139,29 @@ public class Clinic {
                 String exitTime = addTime(appointmentTime, timeTaken); // call addTime method to calculate the exit time
 
                 if (petType.equals("Dog")){
-                    // set string value to concat
-                    updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+dogDroolRate+","+"Day "
-                            +day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
+                    // check if string is not null
+                    if (updatedPatientInfo != null){
+                        // set string value to concat
+                        updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+dogDroolRate+","+"Day "
+                                +day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
+                    }
+                    else{ // string is null, populate string
+                        updatedPatientInfo = petName+","+petType+","+dogDroolRate+","+"Day "
+                                +day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n";
+                    }
+
                 }
                 else if (petType.equals("Cat")){ // else if pet type is a Cat
-                    updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+catMiceCaught+
-                            ","+"Day "+day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
+                    // check if string is not null
+                    if (updatedPatientInfo != null){
+                        // set string value to concat
+                        updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+catMiceCaught+
+                                ","+"Day "+day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
+                    }
+                    else{ // string is null, populate string
+                        updatedPatientInfo = petName+","+petType+","+catMiceCaught+
+                                ","+"Day "+day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n";
+                    }
                 }
                 index++; // increment index value
             }

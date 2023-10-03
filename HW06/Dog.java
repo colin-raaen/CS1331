@@ -62,6 +62,7 @@ public class Dog extends Pet{
                     System.out.printf("BARK ");
             }
         }
+        System.out.println(); // Print New line
         return;
     }
     // Compares One Dog to another

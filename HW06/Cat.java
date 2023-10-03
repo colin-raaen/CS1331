@@ -53,20 +53,22 @@ public class Cat extends Pet {
     public void speak(){
         super.speak(); // Calls parent speak method
         int curPainLevel = this.getPainLevel(); // Get pain level
-        // Prints “bark” number of times of the painLevel
+
+        // Prints “meow” number of times of the miceCuaght
         if (curPainLevel <= 5){
-            // Loop through and print "bark" number of times of pain level
-            for (int i = 0; i < curPainLevel; i++){
+            // Loop through and print "meow" number of times of miceCaught
+            for (int i = 0; i < this.miceCaught; i++){
                 System.out.printf("meow ");
             }
         }
         // ALL UPPERCASE if painLevel is greater than 5, not inclusive
         else {
-            // Loop through and print "BARK" number of times of pain level
-            for (int i = 0; i < curPainLevel; i++){
+            // Loop through and print "MEOW" number of times of miceCaught
+            for (int i = 0; i < this.miceCaught; i++){
                 System.out.printf("MEOW ");
             }
         }
+        System.out.println(); // Print New line
         return;
     }
 

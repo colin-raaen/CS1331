@@ -129,39 +129,24 @@ public class Clinic {
                     }
                 }
 
-                int testPain = pets[index].getPainLevel();
-                System.out.println(testPain);
-
                 pets[index].speak(); // Call speak method
 
                 // call treat method, store time taken that is returned from method call
                 int timeTaken = pets[index].treat();
                 String exitTime = addTime(appointmentTime, timeTaken); // call addTime method to calculate the exit time
 
-                if (petType.equals("Dog")){
-                    // check if string is not null
-                    if (updatedPatientInfo != null){
-                        // set string value to concat
-                        updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+dogDroolRate+","+"Day "
-                                +day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
-                    }
-                    else{ // string is null, populate string
-                        updatedPatientInfo = petName+","+petType+","+dogDroolRate+","+"Day "
-                                +day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n";
-                    }
-
-                }
-                else if (petType.equals("Cat")){ // else if pet type is a Cat
-                    // check if string is not null
-                    if (updatedPatientInfo != null){
-                        // set string value to concat
-                        updatedPatientInfo = updatedPatientInfo.concat(petName+","+petType+","+catMiceCaught+
-                                ","+"Day "+day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n");
-                    }
-                    else{ // string is null, populate string
-                        updatedPatientInfo = petName+","+petType+","+catMiceCaught+
-                                ","+"Day "+day+","+appointmentTime+","+exitTime+","+petHealth+","+painLevel+"\n";
-                    }
+                if (petType.equals("Dog")) {
+                    // define string to add to String of patient info
+                    String petInfo = petName + "," + petType + "," + dogDroolRate + "," + "Day "
+                            + day + "," + appointmentTime + "," + exitTime + "," + petHealth + "," + painLevel + "\n";
+                    // either initailize String with petInfo, or concat the string
+                    updatedPatientInfo = (updatedPatientInfo != null) ? updatedPatientInfo.concat(petInfo) : petInfo;
+                } else if (petType.equals("Cat")) {
+                    // define string to add to String of patient info
+                    String petInfo = petName + "," + petType + "," + catMiceCaught + "," + "Day "
+                            + day + "," + appointmentTime + "," + exitTime + "," + petHealth + "," + painLevel + "\n";
+                    // either initailize String with petInfo, or concat the string
+                    updatedPatientInfo = (updatedPatientInfo != null) ? updatedPatientInfo.concat(petInfo) : petInfo;
                 }
                 index++; // increment index value
             }
@@ -175,6 +160,7 @@ public class Clinic {
             }
         }
         day++; // increment day after scanning file and updating patients information
+
         return updatedPatientInfo; // return string with updated patients information from scanned file
     }
 
@@ -195,14 +181,14 @@ public class Clinic {
     public boolean addToFile(String patientInfo){
         PrintWriter filePrint = null; // initialize a PrintWriter object
 
-        // Create a Scanner with the String input parameter as its source
+        // Create a Scanner object with
         Scanner patientString = new Scanner(patientInfo);
 
         try {
-            while (patientString.hasNextLine()){// While there is another line that exists in the file being scanned
+            while (patientString.hasNextLine()){// While there is another line that exists in the String being read
                 // peform scan of larger string parameter to see if
 
-                String line = patientString.nextLine();
+                String line = patientString.nextLine(); // Store next line of patientInfo into new String
                 filePrint.println(line); // print line number and line to new output file
             }
         }
@@ -211,6 +197,9 @@ public class Clinic {
             return false;
         }
         finally {
+            if (fileScan != null) { // If fileScan isn't null i.e. File exists
+                fileScan.close(); // Close Scanner object and subsequently the file
+            }
             if (filePrint != null) { // If filePrint isn't null i.e. File exists
                 filePrint.close(); // Close Scanner object and subsequently the file
             }

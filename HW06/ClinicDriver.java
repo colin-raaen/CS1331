@@ -12,10 +12,13 @@ public class ClinicDriver {
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
+        // create array of substrings from updated patient info
         String[] dayOneAppointments = dayOneReport.split("\\n");
+        // Loop through array String of all patients updated information sub strings
         for (String appointment : dayOneAppointments) {
+            // if call to addToFile method returns false, than print error, otherwise prints to file
             if (!clinic.addToFile(appointment)) {
-                System.out.println("Appointment could not be added to file!");
+                System.out.println("Appointment could not be added to file!"); // print error
             }
         }
     }

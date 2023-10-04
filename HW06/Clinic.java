@@ -28,7 +28,7 @@ public class Clinic {
         Scanner fileScan = null; // Define null Scanner for file scan
         Scanner petScan = null; // define null scanner for pet scan
         Scanner userInput = null; // define null Scanner object for user input
-        int index = 0; // int to count index of arrays
+        int index = 0; // int to count index of Pets arrays
         String updatedPatientInfo = null; // String to store updated patient information that will be returned
 
         try {
@@ -181,30 +181,32 @@ public class Clinic {
     public boolean addToFile(String patientInfo){
         PrintWriter filePrint = null; // initialize a PrintWriter object
 
-        // Create a Scanner object with
-        Scanner patientString = new Scanner(patientInfo);
+        // defines output file represented by the patientInfo file defined in constructor
+        File fileOut = new File(patientFile.getPath());
+
+        Scanner patientString; // Create a Scanner object to scan input String parameter
 
         try {
-            while (patientString.hasNextLine()){// While there is another line that exists in the String being read
-                // peform scan of larger string parameter to see if
+            patientString = new Scanner(patientInfo); // define patientString with patientInfo String
+            filePrint = new PrintWriter(fileOut); // Defines print writer object to print to output file
 
+            while (patientString.hasNextLine()) { // While string line exists
                 String line = patientString.nextLine(); // Store next line of patientInfo into new String
-                filePrint.println(line); // print line number and line to new output file
+                filePrint.println(line); // Append the line to the file
             }
+
+            return true; // returns succesfully printed to file
         }
         catch (Exception e){ // Exception handler if a file doesn't exist
             System.out.println(e.getMessage()); // Print error message
             return false;
         }
         finally {
-            if (fileScan != null) { // If fileScan isn't null i.e. File exists
-                fileScan.close(); // Close Scanner object and subsequently the file
-            }
             if (filePrint != null) { // If filePrint isn't null i.e. File exists
                 filePrint.close(); // Close Scanner object and subsequently the file
             }
         }
-        return true;
+
     }
 
     // method to calculate additional time

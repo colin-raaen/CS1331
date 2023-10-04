@@ -17,9 +17,10 @@ public class FileTest {
 
         try{
             fileScan = new Scanner(fileIn); // constructs fileScan with fileIn
+            filePrint = new PrintWriter(fileOut); // Defines print writer object to print to output file
 
             int lineCount = 0; // initialize int counter variable for number of lines in file
-            System.out.printf("Lines in %s containing %s:\n", args[0], args[1]);
+            filePrint.printf("Lines in %s containing %s:\n", args[0], args[1]);
             while (fileScan.hasNextLine()){ // While there is another line that exists in the file being scanned
                 String line = fileScan.nextLine(); // Store line into String variable
                 if (line.contains(word)){ // If line of words contains the stored word from the command line

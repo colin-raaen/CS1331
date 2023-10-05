@@ -30,19 +30,23 @@ public class Dog extends Pet{
 
     // method treat that Returns the time taken (in minutes) to treat the pet. Round values up.
     public int treat(){
-        super.heal(); // call super class of heal
+        int timeTaken; // defines variable to store time taken that will be returned
+
         // if droolRate is less than 3.5, the minutes for treatment is (painLevel*2)/health
         if (this.droolRate < 3.5){
-            return (int) Math.ceil((this.getPainLevel() * 2) / this.getHealth());
+            // cast painLevel to double to peform calculation. use Math.ceil to round, then cast to int
+            timeTaken = ((int) Math.ceil(((double) this.getPainLevel() * 2) / this.getHealth()));
         }
         // if droolRate is in between 3.5 and 7.5 inclusive, the minutes for treatment is painLevel/health
         else if (3.5 <= this.droolRate && this.droolRate <= 7.5){
-            return (int) Math.ceil(this.getPainLevel() / this.getHealth());
+            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / this.getHealth()));
         }
         // if droolRate is greater than 7.5, the minutes for treatment is painLevel/(health*2)
         else {
-            return (int) Math.ceil(this.getPainLevel() / (this.getHealth() * 2));
+            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / (this.getHealth() * 2)));
         }
+        super.heal(); // call super class of heal
+        return timeTaken; // return time taken to treat
     }
 
     public void speak(){
@@ -72,8 +76,8 @@ public class Dog extends Pet{
         if (o instanceof Dog) {
             // Cast Object o to Dog
             Dog pet = (Dog) o;
-            // Use the equals() method in Pet as part to evaluate if
-            nameCheck = this.equals(o);
+            // Use the equals() method in Pet as part to evaluate if names are equal
+            nameCheck = super.equals(o);
             // if nameCheck equals True
             if (nameCheck = true){
                 // check additional condition of droolRate being the same

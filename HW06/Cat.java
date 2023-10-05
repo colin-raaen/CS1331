@@ -27,26 +27,29 @@ public class Cat extends Pet {
 
     // treat method definition
     public int treat(){
-        super.heal(); // call super class of heal
+        int timeTaken; // defines variable to store time taken that will be returned
+
 
         // if number of miceCaught is less than 4
         if (this.miceCaught < 4){
             // minutes for treatment is equal to (painLevel *2)/health
-            return (int) Math.ceil((this.getPainLevel() * 2) / this.getHealth());
+            timeTaken = ((int) Math.ceil(((double) this.getPainLevel() * 2) / this.getHealth()));
         }
         // if miceCaught is in between 4 and 7 inclusive the
         else if (this.miceCaught >= 4 && this.miceCaught <= 7){
             // minutes for treatment equals painLevel/health
-            return (int) Math.ceil(this.getPainLevel() / this.getHealth());
+            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / this.getHealth()));
         }
         // if miceCaught is greater than 7
         else if (this.miceCaught > 7){
             // minutes for treatment equals painLevel/(health*2)
-            return (int) Math.ceil(this.getPainLevel() / (this.getHealth() * 2));
+            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / (this.getHealth() * 2)));
         }
         else{ // If nothing evaluates to true, return 0
             return 0;
         }
+        super.heal(); // call super class of heal
+        return timeTaken; // Return calculated time taken to treat
     }
 
     // Speak method definition
@@ -80,7 +83,7 @@ public class Cat extends Pet {
             // Cast Object o to Dog
             Cat pet = (Cat) o;
             // Use the equals() method in Pet as part to evaluate if
-            nameCheck = this.equals(o);
+            nameCheck = super.equals(o);
             // if nameCheck equals True
             if (nameCheck = true){
                 // check additional condition of miceCaught being the same

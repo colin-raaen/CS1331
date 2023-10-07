@@ -77,7 +77,7 @@ public class Cat extends Pet {
 
     // equals method to compare if object instances are the same
     public boolean equals(Object o){
-        boolean nameCheck = false;
+        boolean nameCheck = false; // initailize Boolean value for name check
         // Object o is an instance of Dog
         if (o instanceof Cat) {
             // Cast Object o to Dog
@@ -85,7 +85,7 @@ public class Cat extends Pet {
             // Use the equals() method in Pet as part to evaluate if
             nameCheck = super.equals(o);
             // if nameCheck equals True
-            if (nameCheck = true){
+            if (nameCheck == true){
                 // check additional condition of miceCaught being the same
                 return (this.miceCaught == pet.miceCaught);
             }

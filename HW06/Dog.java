@@ -71,7 +71,7 @@ public class Dog extends Pet{
     }
     // Compares One Dog to another
     public boolean equals(Object o){
-        boolean nameCheck = false;
+        boolean nameCheck = false; // initailize Boolean value for name check
         // Object o is an instance of Dog
         if (o instanceof Dog) {
             // Cast Object o to Dog
@@ -79,7 +79,7 @@ public class Dog extends Pet{
             // Use the equals() method in Pet as part to evaluate if names are equal
             nameCheck = super.equals(o);
             // if nameCheck equals True
-            if (nameCheck = true){
+            if (nameCheck == true){
                 // check additional condition of droolRate being the same
                 return (this.droolRate == pet.droolRate);
             }

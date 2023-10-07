@@ -11,14 +11,8 @@ public class Dog extends Pet{
     // More specific constructor method for Dog
     public Dog(String name, double health, int painLevel, double droolRate){
         super(name, health, painLevel); // Call the constructor of the Pet class with "super" keyword
-
-        // If droolRate is less than or equal to zero, set drool rate to 0.5
-        if (droolRate <= 0.0){
-            this.droolRate = 0.5;
-        }
-        else{
-            this.droolRate = droolRate; // else set droolRate to parameter value
-        }
+        // If droolRate is less than or equal to zero, set drool rate to 0.5 else set to droolRate
+        this.droolRate = (droolRate <= 0.0) ? 0.5 : droolRate;
     }
 
 
@@ -35,17 +29,17 @@ public class Dog extends Pet{
         // if droolRate is less than 3.5, the minutes for treatment is (painLevel*2)/health
         if (this.droolRate < 3.5){
             // cast painLevel to double to peform calculation. use Math.ceil to round, then cast to int
-            timeTaken = ((int) Math.ceil(((double) this.getPainLevel() * 2) / this.getHealth()));
+            timeTaken = ((int) Math.ceil((this.getPainLevel() * 2) / this.getHealth()));
         }
         // if droolRate is in between 3.5 and 7.5 inclusive, the minutes for treatment is painLevel/health
         else if (3.5 <= this.droolRate && this.droolRate <= 7.5){
-            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / this.getHealth()));
+            timeTaken = ((int) Math.ceil((this.getPainLevel() / this.getHealth())));
         }
         // if droolRate is greater than 7.5, the minutes for treatment is painLevel/(health*2)
         else {
-            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / (this.getHealth() * 2)));
+            timeTaken = ((int) Math.ceil( this.getPainLevel() / (this.getHealth() * 2)));
         }
-        super.heal(); // call super class of heal
+        heal(); // call super class of heal
         return timeTaken; // return time taken to treat
     }
 
@@ -53,20 +47,12 @@ public class Dog extends Pet{
         super.speak(); // Call Pet speak method
         int curPainLevel = this.getPainLevel(); // Get pain level
         // Prints “bark” number of times of the painLevel
-        if (curPainLevel <= 5){
-            // Loop through and print "bark" number of times of pain level
-            for (int i = 0; i < curPainLevel; i++){
-                System.out.printf("bark ");
-            }
+        String sound = (curPainLevel > 5) ? "BARK " : "bark ";
+        String output = "";
+        for (int i = 0; i < curPainLevel; i++){
+            output = output + sound;
         }
-        // ALL UPPERCASE if painLevel is greater than 5, not inclusive
-        else {
-            // Loop through and print "BARK" number of times of pain level
-            for (int i = 0; i < curPainLevel; i++){
-                    System.out.printf("BARK ");
-            }
-        }
-        System.out.println(); // Print New line
+        System.out.println(output.trim());
         return;
     }
     // Compares One Dog to another

@@ -11,13 +11,8 @@ public class Cat extends Pet {
     // More specific Cat constructor
     public Cat(String name, double health, int painLevel, int miceCaught){
         super(name, health, painLevel); // call parent constructor for name, health, and painlevel
-        // If miceCaught passed in is less than 0, set miceCaught to 0
-        if (miceCaught >= 0){
-            this.miceCaught = miceCaught; // set miceCaught variable
-        }
-        else {
-            this.miceCaught = 0; // set to 0
-        }
+        // If miceCaught passed in is less than 0, set miceCaught to 0 else set to miceCaught
+        this.miceCaught = (miceCaught < 0) ? 0 : miceCaught;
     }
 
     // Getter method for mice caught
@@ -33,22 +28,22 @@ public class Cat extends Pet {
         // if number of miceCaught is less than 4
         if (this.miceCaught < 4){
             // minutes for treatment is equal to (painLevel *2)/health
-            timeTaken = ((int) Math.ceil(((double) this.getPainLevel() * 2) / this.getHealth()));
+            timeTaken = ((int) Math.ceil(( this.getPainLevel() * 2) / this.getHealth()));
         }
         // if miceCaught is in between 4 and 7 inclusive the
         else if (this.miceCaught >= 4 && this.miceCaught <= 7){
             // minutes for treatment equals painLevel/health
-            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / this.getHealth()));
+            timeTaken = ((int) Math.ceil( this.getPainLevel() / this.getHealth()));
         }
         // if miceCaught is greater than 7
         else if (this.miceCaught > 7){
             // minutes for treatment equals painLevel/(health*2)
-            timeTaken = ((int) Math.ceil((double) this.getPainLevel() / (this.getHealth() * 2)));
+            timeTaken = ((int) Math.ceil( this.getPainLevel() / (this.getHealth() * 2)));
         }
         else{ // If nothing evaluates to true, return 0
             return 0;
         }
-        super.heal(); // call super class of heal
+        heal(); // call super class of heal
         return timeTaken; // Return calculated time taken to treat
     }
 
@@ -56,22 +51,13 @@ public class Cat extends Pet {
     public void speak(){
         super.speak(); // Calls parent speak method
         int curPainLevel = this.getPainLevel(); // Get pain level
-
-        // Prints “meow” number of times of the miceCuaght
-        if (curPainLevel <= 5){
-            // Loop through and print "meow" number of times of miceCaught
-            for (int i = 0; i < this.miceCaught; i++){
-                System.out.printf("meow ");
-            }
+        // Prints “bark” number of times of the painLevel
+        String sound = (curPainLevel > 5) ? "MEOW " : "meow ";
+        String output = "";
+        for (int i = 0; i < curPainLevel; i++){
+            output = output + sound;
         }
-        // ALL UPPERCASE if painLevel is greater than 5, not inclusive
-        else {
-            // Loop through and print "MEOW" number of times of miceCaught
-            for (int i = 0; i < this.miceCaught; i++){
-                System.out.printf("MEOW ");
-            }
-        }
-        System.out.println(); // Print New line
+        System.out.println(output.trim());
         return;
     }
 

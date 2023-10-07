@@ -8,11 +8,11 @@ public abstract class Pet {
     public Pet(String name, double health, int painLevel) {
         this.name = name; // set pets name from input parameter
         // if health level parameter is greath than 1.0, then set to 1.0
-        if (health > 1.0) {
+        if (health >= 1.0) {
             this.health = 1.0;
         }
         // else if health level parameter is less than 0.0, then set to 0.0
-        else if (health < 0.0) {
+        else if (health <= 0.0) {
             this.health = 0.0;
         }
         // else set value of health level
@@ -20,11 +20,11 @@ public abstract class Pet {
             this.health = health;
         }
         // if pain level parameter is greater than 10, then set to 10
-        if (painLevel > 10) {
+        if (painLevel >= 10) {
             this.painLevel = 10;
         }
         // else if pain level parameter is less than 1, set to 1
-        else if (painLevel < 1) {
+        else if (painLevel <= 1) {
             this.painLevel = 1;
         }
         // set pain level value to parameter
@@ -61,7 +61,6 @@ public abstract class Pet {
         else{ // else print lower case
             System.out.println("Hello! My name is " + this.name);
         }
-        System.out.println(); // Print New line
     }
 
     // Equals method to check if two pets have the same name

@@ -8,44 +8,10 @@ public class Clinic {
     private File patientFile; // private variable File with patient information
     private int day; // define variable int that is day
 
-    private static final int MAX_PETS = 100; // maximum number of pets to expect
-    // define array of Pets to store values parsed from Appointments CSV file
-    private static Pet[] pets = new Pet[MAX_PETS];
-    // Define array of Strings with Patient information, used to check if appointment patient is existing patient
-    private static String[] patients = new String[5];
-
-
     // Constructor for Clinic, defines variable patientFile using parameter
     public Clinic(File file){
         this.patientFile = file; // Assign file that contains patient info to patientFile
         this.day = 1; // Day initialized to 1
-
-        Scanner fileScan = null; // initialize a Scanner object
-
-        // Scan file of patients and store in array variable to check if patient exists later
-        try{
-            fileScan = new Scanner(this.patientFile); // constructs fileScan with patientFile
-            int lineCount = 0; // initialize int counter variable for number of lines in file
-
-            while (fileScan.hasNextLine()){ // While there is another line that exists in the file being scanned
-                String line = fileScan.nextLine(); // Store file line into String variable
-                patients[lineCount] = line; // Store string variable into arry of Strings
-                lineCount++; // increment lineCount variable
-            }
-            // TEST
-            for (int i = 0; i < patients.length; i++){
-                System.out.println("Test: "+patients[i]);
-            }
-        }
-        catch (FileNotFoundException e){ // Exception handler if a file doesn't exist
-            System.out.println(e.getMessage()); // Print error message
-        }
-        finally {
-            if (fileScan != null) { // If fileScan isn't null i.e. File exists
-                fileScan.close(); // Close Scanner object and subsequently the file
-            }
-        }
-
     }
 
     // Constructor that chains,
@@ -54,182 +20,134 @@ public class Clinic {
         this(new File(fileName));
     }
 
-    // Method
+    // nextDay method which cans input Appointment csv and outputs string with appointments to be output
     public String nextDay(File f) throws FileNotFoundException, InvalidPetException{
-        Scanner fileScan = null; // Define null Scanner for file scan
-        Scanner petScan = null; // define null scanner for pet scan
-        Scanner userInput = null; // define null Scanner object for user input
-        int index = 0; // int to count index of Pets arrays
-        String updatedPatientInfo = null; // String to store updated patient information that will be returned
-
-        try {
-            fileScan = new Scanner(f); // constructs fileScan with fileIn
-            userInput = new Scanner(System.in); // constructs userInput to collect user input
-            String line = null; // define string to store pet information
-
-            while (fileScan.hasNextLine()) { // While there is another line that exists in the file being scanned
-                line = fileScan.nextLine(); // Scan next line into String variable
-                petScan = new Scanner(line); // Create new Scanner object with String "line" as input
-                petScan.useDelimiter(","); // Use delimiter to parse .csv values at comma
-                String petName = petScan.next(); // Store first string value in array of names
-                String petType = petScan.next(); // Store next string value in array of pet types
-                double dogDroolRate = -1; // declare variable to store drool rate if dog, assign a sentinel value
-                int catMiceCaught = -1; // declare int variable to store miceCaught if cat, assign a sentinel value
-
-                // if pet type isn't valid entry
-                if (!petType.equals("Cat") && !petType.equals("Dog")) {
-                    // throw new exception, calling InvalidPetException, which is extended in method name
-                    throw new InvalidPetException();
-                }
-
-                if (petType.equals("Dog")){ // if petType is a Dog
-                    dogDroolRate = petScan.nextDouble(); // store dog double drool rate
-                }
-                else if (petType.equals("Cat")){ // else if pet type is a Cat
-                    catMiceCaught = petScan.nextInt(); // store cat int miceCaught
-                }
-
-                String appointmentTime = petScan.next(); // Store time of appointment as a string
-
-                double petHealth = 0; // declare int to store user input
-
-                // do-while loop to continuously prompt user for an int for pet's health
-                do{
-                    // Print statement with details to and prompt user for health of pet
-                    System.out.println("Consultation for " + petName + " the " + petType + " at "
-                            + appointmentTime + ".\nWhat is the health of " + petName + "?\n");
-
-                    // if input provided by user is a double
-                    if (userInput.hasNextDouble()) {
-                        petHealth = userInput.nextDouble(); // store user input in vairalbe
-                        break; // Exit the loop if the input is an integer
-                    }
-                    else { // if input is not a double
-                        userInput.nextLine(); // Consume the invalid input
-                        System.out.println("Pleaser enter a double"); // print invalid input
-                    }
-                } while (true); // continue to reprompt the user until an int is input
-
-                int painLevel = 0; // declare int to store user input for pain level
-
-                // do-while loop to continuously prompt user for an int for pet's health
-                do{
-                    // Print statement with details to and prompt user for health of pet
-                    System.out.println("On a scale of 1 to 10, how much pain is " + petName + " in right now?\n");
-
-                    // if input provided by user is an int
-                    if (userInput.hasNextInt()) {
-                        painLevel = userInput.nextInt(); // store user input in vairalbe
-                        if (painLevel >= 1 && painLevel <= 10) {
-                            break; // Exit the loop if the input is an integer
-                        }
-                    }
-                    else { // if input is not an integer
-                        userInput.nextLine(); // Consume the invalid input
-                        System.out.println("Please enter a number"); // print invalid input
-                    }
-                } while (true); // continue to reprompt the user until an int is input
-
-
-                if (petType.equals("Dog")){ // if petType is a Dog
-                    // if no value has been assigned to dogDroolRate, than call Dog constructor without DroolReate param
-                    if (dogDroolRate == -1){
-                        // create dog object with values scanned from file
-                        Dog petCreated = new Dog(petName, petHealth, painLevel);
-                        pets[index] = petCreated; // assign Dog to pets array
-                    }
-                    else{ // dogDroolRate has been assigned, call with assigned dogDroolRate
-                        // create dog object with values scanned from file
-                        Dog petCreated = new Dog(petName, petHealth, painLevel, dogDroolRate);
-                        pets[index] = petCreated; // assign Dog to pets array
-                    }
-
-                }
-                else if (petType.equals("Cat")){ // else if pet type is a Cat
-                    // if no value has been assigned to catMiceCaught, call Cat constructor without miceCaught
-                    if (catMiceCaught == -1){
-                        // create cat object with values scanned from file
-                        Cat petCreated = new Cat(petName, petHealth, painLevel);
-                        pets[index] = petCreated; // assign Cat to pets array
-                    }
-                    // else value has been assigned to miceCaught, call contructor with miceCaught
-                    else{
-                        // create cat object with values scanned from file
-                        Cat petCreated = new Cat(petName, petHealth, painLevel, catMiceCaught);
-                        pets[index] = petCreated; // assign Cat to pets array
-                    }
-                }
-
-                pets[index].speak(); // Call speak method
-
-                // call treat method, store time taken that is returned from method call
-                int timeTaken = pets[index].treat();
-                String exitTime = addTime(appointmentTime, timeTaken); // call addTime method to calculate the exit time
-
-                if (petType.equals("Dog")) {
-                    // define string to add to String of patient info
-                    String petInfo = petName + "," + petType + "," + dogDroolRate + "," + "Day "
-                            + day + "," + appointmentTime + "," + exitTime + "," + petHealth + "," + painLevel + "\n";
-                    // either initailize String with petInfo, or concat the string
-                    updatedPatientInfo = (updatedPatientInfo != null) ? updatedPatientInfo.concat(petInfo) : petInfo;
-                } else if (petType.equals("Cat")) {
-                    // define string to add to String of patient info
-                    String petInfo = petName + "," + petType + "," + catMiceCaught + "," + "Day "
-                            + day + "," + appointmentTime + "," + exitTime + "," + petHealth + "," + painLevel + "\n";
-                    // either initailize String with petInfo, or concat the string
-                    updatedPatientInfo = (updatedPatientInfo != null) ? updatedPatientInfo.concat(petInfo) : petInfo;
-                }
-                index++; // increment index value
-            }
-        }
-        catch (FileNotFoundException e){ // Exception handler if a file doesn't exist
-            System.out.println(e.getMessage()); // Print error message
-        }
-        catch (InvalidPetException e) { // Handle the InvalidPetException if caused by incorrect petType
-            System.out.println(e.getMessage());
-        }
-        finally {
-            if (fileScan != null) { // If fileScan isn't null i.e. File exists
-                fileScan.close(); // Close Scanner object and subsequently the file
-            }
-        }
         day++; // increment day after scanning file and updating patients information
+        // Define inputScanner Scanner with file input, that parses the file at every line break
+        Scanner fileScan = new Scanner(f);
+        Scanner userInput = new Scanner(System.in); // define userInput Scanner object to collect user input
+        boolean success = false; // intialize boolean variable for exception controlled loop
 
+        String petName; // String to store pet's name
+        String petType; // String to store pet type
+        String appointmentTime; // String to store appointment start time
+        String exitTime = ""; // String to store end of appointment time
+        double petHealth = 0; // declare int to store user input
+        int painLevel = 0; // declare int to store user input for pain level
+        String droolOrMiceCaught; // declare variable to store drool rate if dog, assign a sentinel value
+        String updatedPatientInfo = ""; // String to store updated patient information that will be returned
+        String line = null; // declare string to store line of file to split
+
+        // While there is another line that exists in the file being scanned
+        while (fileScan.hasNextLine()) {
+            line = fileScan.nextLine(); // Store first string value in array of names
+            String[] petLine = line.split(","); // Parse the line breaking at the commas
+            petName = petLine[0]; // Store first string value in array of names
+            petType = petLine[1]; // Store next string value in array of pet types
+            droolOrMiceCaught = petLine[3]; // store dog double drool rate
+            appointmentTime = petLine[4]; // Store time of appointment as a string
+
+            // if pet type isn't valid entry
+            if (!petType.equals("Cat") && !petType.equals("Dog")) {
+                throw new InvalidPetException(); // throw new exception, calling custom InvalidPetException
+            }
+
+            // Excpetion controlled loop to prompt user for an int for pet's health
+            while (!success){ // continue to reprompt the user until an int
+                // Print statement with details to and prompt user for health of pet
+                System.out.println("Consultation for " + petName + " the " + petType + " at " + appointmentTime + ".\n"
+                        + "What is the health of " + petName + "?");
+                if (userInput.hasNextDouble()){
+                    petHealth = userInput.nextDouble(); // store user input in vairalbe
+                    success = true; // Exit the loop if the input is an integer
+                }
+                else{
+                    userInput.nextLine(); // Clear invalid input
+                    System.out.println("Please enter a number");
+                }
+            }
+
+            success = false; // Reset value of boolena for next user input check
+
+            // Excpetion controlled loop to prompt user for an int for pet's health
+            while (!success){
+                // Print statement with details to and prompt user for health of pet
+                System.out.println("On a scale of 1 to 10, how much pain is " + petName + " in right now?");
+                if (userInput.hasNextInt()){
+                    painLevel = userInput.nextInt(); // store user input in variable
+                    success = true; // Exit the loop if the input is an integer
+                }
+                else{
+                    userInput.nextLine(); // Consume the invalid input
+                    System.out.println("Please enter a number"); // print invalid input
+                }
+            }
+
+            Pet petCreated; // Initalize Pet object or instance creation
+            // Code block to create instance of Dog
+            if (petType.equals("Dog")){ // if petType is a Dog
+                // create dog object with values scanned from file
+                petCreated = new Dog(petName, petHealth, painLevel, Double.parseDouble((droolOrMiceCaught)));
+            }
+            // else if code block to create instance of Cat
+            else if (petType.equals("Cat")){ // else if pet type is a Cat
+                // create cat object with values scanned from file
+                petCreated = new Cat(petName, petHealth, painLevel, Integer.parseInt((droolOrMiceCaught)));
+            }
+            else{
+                throw new InvalidPetException(); // Throw invalid pet exception
+            }
+
+            painLevel = petCreated.getPainLevel(); // Use getter method to get pain level after initalizing instance of Pet
+            petHealth = petCreated.getHealth();// Use getter method to get health after initalizing instance of Pet
+            petCreated.speak(); // Call speak method for current pet
+            // call addTime method to calculate the exit time, utilizing treat time method call
+            exitTime = addTime(appointmentTime, petCreated.treat());
+
+            // define string to add to String of patient info and concat the string
+            updatedPatientInfo = updatedPatientInfo.concat(String.format("%s,%s,%s,Day %d,%s,%s,%s,%s\n",
+                    petName, petType, droolOrMiceCaught, day, appointmentTime, exitTime, petHealth, painLevel));
+        }
+        fileScan.close(); // Close Scanner object and subsequently the file
+        userInput.close(); // Close Scanner object for user input
         return updatedPatientInfo; // return string with updated patients information from scanned file
     }
 
     // Method
-    public String nextDay(String fileName) throws FileNotFoundException {
-        try {
-            return (nextDay(new File(fileName)));
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage()); // Print error message
-            return null; // exit and return null if try attempt fails
-        } catch (InvalidPetException e) {
-            System.out.println(e.getMessage()); // Handle the InvalidPetException if caused by Method call
-            return null; // exit and return null if try attempt fails
-        }
+    public String nextDay(String fileName) throws FileNotFoundException, InvalidPetException{
+        // chains the nextDay method, creating a new file with String input and returning resulting string if successful
+        return (nextDay(new File(fileName)));
     }
 
     // method to write the strings on updated patient information to file
     public boolean addToFile(String patientInfo){
         PrintWriter filePrint = null; // initialize a PrintWriter object
+        Scanner fileScan = null; // Create a Scanner object to scan patient File to collect existing patients
+        String outputString = ""; // Iniatilize String that will store output line to print
 
-        // defines output file represented by the patientInfo file defined in constructor
+        // ASSESS
         File fileOut = new File(patientFile.getPath());
 
-        Scanner patientString; // Create a Scanner object to scan input String parameter
-
         try {
-            patientString = new Scanner(patientInfo); // define patientString with patientInfo String
-            filePrint = new PrintWriter(fileOut); // Defines print writer object to print to output file
+            fileScan = new Scanner(patientFile); // define patientString with patientInfo String
+
+            boolean newPatient = true; // Initialize boolean to True that will capture whether new Patient or not
+            int firstDelimiter = patientInfo.indexOf(",");
+            String patientNameToCheck = patientInfo.subString(0, firstDelimiter); // Get the patient name from patientInfo line
+
+            // ASSESS
+            filePrint = new PrintWriter(fileOut);
 
             while (patientString.hasNextLine()) { // While string line exists
-                String line = patientString.nextLine(); // Store next line of patientInfo input parameter into new String
+                String line = fileScan.nextLine(); // Store next line of patientInfo input parameter into new String
 
-                // Split the line into tokens using the delimiter "," to store patients name and printing later
-                String[] tokens = line.split(",");
-                String patientNameToCheck = tokens[0]; // Get the patient name from the line
+                // Check if name within the Patients file matches the name of patient to print
+                if (line.StartsWith(patientNameToCheck)){
+                    newPatient = false; // if names match then
+
+
+                }
+
 
                 // Loop through array of existing Patients
                 for (int i = 0; i < patients.length; i++){
@@ -251,24 +169,27 @@ public class Clinic {
                         String existingPatientNewString = patients[i] + "," + tokens[3]+ "," + tokens[4] + "," +
                                 tokens[5] + "," + tokens[6] + "," + tokens[7];
                         filePrint.println(existingPatientNewString); // Append the line to the file
-                        return true;
+                        printSuccess = true;
                     }
                 }
-                // If the patient name is not found, the line is appended to the file.
-                filePrint.println(line);
-            }
+                // If the patient name is not found
+                if (printSuccess == false){
+                    // append the line to the file.
+                    filePrint.println(line);
+                    printSuccess = true;
+                }
 
-            return true; // returns succesfully printed to file
-        }
-        catch (Exception e){ // Exception handler if a file doesn't exist
-            System.out.println(e.getMessage()); // Print error message
+            }
+        }catch(Exception e){
             return false;
         }
-        finally {
+        finally{
             if (filePrint != null) { // If filePrint isn't null i.e. File exists
                 filePrint.close(); // Close Scanner object and subsequently the file
             }
+            return printSuccess;
         }
+
 
     }
 

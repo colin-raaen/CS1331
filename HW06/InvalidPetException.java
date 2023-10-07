@@ -1,4 +1,5 @@
-public class InvalidPetException extends Exception{
+// Unchecked exception that is thrown when there is an invalid pet if neither Dog or Cat
+public class InvalidPetException extends RuntimeException{
     public InvalidPetException(){
         super("Your pet is invalid!"); // Pass error message to the Exception class
     }

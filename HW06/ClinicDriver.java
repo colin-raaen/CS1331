@@ -4,13 +4,15 @@ import java.io.FileNotFoundException;
  */
 public class ClinicDriver {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidPetException{
         Clinic clinic = new Clinic("Patients.csv");
         String dayOneReport = "";
         try {
             dayOneReport = clinic.nextDay("Appointments.csv");
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
+        } catch (InvalidPetException e) { // Handle the InvalidPetException is thrown by nextDay method call
+            System.out.println(e.getMessage());
         }
         // create array of substrings from updated patient info
         String[] dayOneAppointments = dayOneReport.split("\\n");

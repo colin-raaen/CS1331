@@ -12,7 +12,7 @@ public class Clinic {
     // define array of Pets to store values parsed from Appointments CSV file
     private static Pet[] pets = new Pet[MAX_PETS];
     // Define array of Strings with Patient information, used to check if appointment patient is existing patient
-    private static String[] patients = new String[MAX_PETS];
+    private static String[] patients = new String[5];
 
 
     // Constructor for Clinic, defines variable patientFile using parameter
@@ -224,15 +224,17 @@ public class Clinic {
             patientString = new Scanner(patientInfo); // define patientString with patientInfo String
             filePrint = new PrintWriter(fileOut); // Defines print writer object to print to output file
 
-            patientString.useDelimiter(","); // parse string at comma
-            String patientNameToCheck = patientString.next(); // Store patients name from input String
-
             while (patientString.hasNextLine()) { // While string line exists
-                String line = patientString.nextLine(); // Store next line of patientInfo into new String
+                String line = patientString.nextLine(); // Store next line of patientInfo input parameter into new String
 
-                // Loop through array of Patients
+                // Split the line into tokens using the delimiter "," to store patients name and printing later
+                String[] tokens = line.split(",");
+                String patientNameToCheck = tokens[0]; // Get the patient name from the line
+
+                // Loop through array of existing Patients
                 for (int i = 0; i < patients.length; i++){
                     String existingPatient = ""; // initialize existing patient String to blank
+                    // ensure string with existing patient info isn't null
                     if (patients[i] != null){
                         String[] stringToParse = patients[i].split(","); // Store next existing patient string
                         existingPatient = stringToParse[0]; // Store patients name from input String
@@ -243,13 +245,17 @@ public class Clinic {
                     System.out.println("Existing Patient: "+existingPatient);
 
                     if (patientNameToCheck.equals(existingPatient)){
-                        patientString.next(); // consume petType
-                        filePrint.println(patientString); // Append the line to the file
-                        break;
+                        // parse out only patient info to be added to line
+
+
+                        String existingPatientNewString = patients[i] + "," + tokens[3]+ "," + tokens[4] + "," +
+                                tokens[5] + "," + tokens[6] + "," + tokens[7];
+                        filePrint.println(existingPatientNewString); // Append the line to the file
+                        return true;
                     }
                 }
-                String originalString = patientNameToCheck + line; // concat name to original string
-                filePrint.println(originalString); // Append the line to the file
+                // If the patient name is not found, the line is appended to the file.
+                filePrint.println(line);
             }
 
             return true; // returns succesfully printed to file

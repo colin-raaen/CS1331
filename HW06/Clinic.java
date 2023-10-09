@@ -163,17 +163,24 @@ public class Clinic {
                     // Update line String with additional appointment information using sub Strings
                     line += "," + tokens[3] + "," + tokens[4] + "," + tokens[5] + "," + tokens[6] + "," + tokens[7];
                 }
-                // Add updated line String with additional appointment to outPut String with new line
+                // add the existing patient line String to the output String to be printed
+                // line will contain additional appointemnt info if patient was in patientInfo parameter input
+                // otherwise line will be added to output string with no additions
                 outputString += (line + "\n");
             }
-            // If the patient name is not found, then patient is new
+            // If the patient name was not an existing patients, patient is new, print a new line to the file at the bottom
             if (newPatient == true){
-                outputString += patientInfo; // Assing line entire line String to output String
+                // Assign entire patientInfo String to the end of the output String
+                // will appear at the end since line addes \n at the end
+                outputString += patientInfo;
             }
             // Need to close fileScan object since can't read and write at the same time
             fileScan.close();
-            filePrint = new PrintWriter(patientFile); // assign filePrint new PrintWriter with patientFile as output file
-            filePrint.print(outputString); // Print appointment information to output file
+            // assign filePrint new PrintWriter with patientFile as output file,
+            filePrint = new PrintWriter(patientFile);
+            // Print the outputString information to output file,
+            // this will contain all existing patients, any additions, as well as patientInfo as new patient if new
+            filePrint.print(outputString);
             return true; // return true, successfully printed file
         }catch(Exception e){
             return false; // If exception error occures, return false, didn't successfully write to file

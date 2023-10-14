@@ -19,11 +19,11 @@ public class Node<T> {
         return next;
     }
 
-    public void setData(T newData){ // Getter method for data
+    public void setData(T newData){ // Setter method for data
         data = newData; // set current data variable
     }
 
-    public void setNext(Node<T> setNode){ // Getter method for Next instance variable
+    public void setNext(Node<T> setNode){ // Setter method for Next instance variable
         next = setNode; // set current next variable
     }
 }

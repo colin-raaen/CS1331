@@ -154,7 +154,7 @@ public class TestLinkedList {
         System.out.println("Size of the list after removal: " + myList.size());
         System.out.println();
 
-        System.out.println("Item to remove '" + secondAdd + "' using contains at head: " + myList.remove(secondAdd));
+        System.out.println("Item to remove '" + fifthAdd + "' using contains at head: " + myList.remove(fifthAdd));
         System.out.println("Remaining items in list:");
         System.out.println(myList.getAtIndex(0));
         System.out.println(myList.getAtIndex(1));

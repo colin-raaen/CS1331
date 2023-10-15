@@ -38,8 +38,12 @@ public class LinkedList<T> implements List<T> {
                 newNode.setNext(head); // set newNodes next value to current first node, where head points to
             }
             head = newNode; // reset head to point at newNode
+            // if statement to check if size of linkedList is zero to set tail
+            if (size == 0){ // if size is zero
+                tail = newNode; // set tail to newNode
+            }
         }
-        else if (index == size){ // if index is tail of the list, that has at least one node
+        else if (index > 0 && index == size){ // if index is tail of the list, that has at least one node
             Node<T> current = head; // new node to track current node as it traverses
             // travese the linked list, stopping at last node of the linked list
             while (current.getNext() != null) { // the last node is the Node with next = null
@@ -47,7 +51,7 @@ public class LinkedList<T> implements List<T> {
             }
             // set current last node's next value to the newNode value
             current.setNext(newNode);
-
+            tail = newNode; // set tail to newNode
         }
         else{ // index is not being inserted as head or tail, in middle of index
             Node<T> current = head; // new node to track current node as it traverses
@@ -61,6 +65,7 @@ public class LinkedList<T> implements List<T> {
             current.setNext(newNode); // set old next value to point at newNode to finish insertion
         }
         size++; // increment size of LinkedList
+        return; // exit method so other if-else statements don't evaluate to true
     }
 
     /**
@@ -91,35 +96,48 @@ public class LinkedList<T> implements List<T> {
         if (index < 0 || index >= size){ // if index int is out of bounds of lenght of linkedlist
             throw new IllegalArgumentException("Your index is out of bounds"); // throw error message
         }
+        if (isEmpty()) {  //empty lists can't remove item
+            return null; // no data to remove
+        }
 
         T removedData; // define generic to return removed item
 
-        if (isEmpty()) {  //empty lists can't remove item
-            removedData = null; // no data to remove
-        }
-        else if (head.getNext() == null){ // if else linkedlist has one node
+        // if linkedlist has only one node
+        if (index == 0 && head.getNext() == null){
             removedData = head.getData(); // store one item that will be removed
             head = null; //point head to null, to remove single item for garbage collection
+            tail = null; //point tail to null
+
+            size--; // decrement size of linkedList
+            return removedData; // exit method
         }
-        else{ // else linked list has more than one node
-            Node<T> current = head; //traversal starts at the front
-            int indexPosition = 0; // integer to store current position of linkedlist when traversing
+        // else, if deleting the head of the linkedlist, and more than one node
+        else if (index == 0 && head.getNext() != null){
+            removedData = head.getData(); // store one item that will be removed
+            head = head.getNext(); //point head to Node one past index position
+        }
 
-            // Traverse the linkedList until SECOND TO LAST node
-            while ((indexPosition < index - 1)) { // set current to second to last node
-                current = current.getNext();
-                indexPosition++; // increment counter
-            }
+        // else, Node is not the head and linked list has more than one node
+        Node<T> current = head; //traversal starts at the front
+        int indexPosition = 0; // integer to store current position of linkedlist when traversing
 
+        // Traverse the linkedList until either two nodes before node to delete or SECOND TO LAST node if tail
+        while ((indexPosition < index - 1 || current.getNext().getNext() != null)) { // set current to second to last node
+            current = current.getNext();
+            indexPosition++; // increment counter
+        }
+
+        removedData = current.getNext().getData(); // stores data from last node of linkedList to remove
+
+        if (current.getNext().getNext() == null){ // current node to be deleted is the tail of the linkedList
+            current.setNext(null); // Set current to next null to actually remove the node, will be garbage collected
+            tail = current; // Set tail to second to last node which is now last node after removal
+        }
+        else { // node to be deleted is not the tail
             removedData = current.getNext().getData(); //define new E object, stores data from last node of linkedList to remove
-
-            if (current.getNext().getNext() == null){ // at node to be deleted is the tail of the linkedList
-                current.setNext(null); // Set current to next null to actually remove the node, will be garbage collected
-            }
-            else { // node to be deleted is not the tail
-                current.setNext(current.getNext().getNext()); // Set current next point to the node past the node to delete
-            }
+            current.setNext(current.getNext().getNext()); // Set current next point to the node past the node to delete
         }
+
         size--; // decrement size of linkedList
         return removedData; // return node to remove
     }
@@ -144,6 +162,7 @@ public class LinkedList<T> implements List<T> {
         while ((current != null) && (!dataFound)) { // traverse linkedList until the end or the data is found
             if (data.equals(current.getData())) { // data equals current node
                 removedData = current.getData();
+                // if node to remove is the tail node
                 dataFound = true; // set boolean to true, found
             } else { // move to the next node
                 current = current.getNext();

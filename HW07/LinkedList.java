@@ -115,10 +115,11 @@ public class LinkedList<T> implements List<T> {
             Node<T> current = head; //traversal starts at the front
             int indexPosition = 0; // integer to store current position of linkedlist when traversing
 
-            // Traverse the linkedList until either two nodes before node to delete or SECOND TO LAST node if tail
-            while ((indexPosition < index - 1 || current.getNext().getNext() != null)) { // set current to second to last node
-                current = current.getNext();
+            // Traverse the linkedList until node before node to delete
+            while (indexPosition < index - 1) {
                 indexPosition++; // increment counter
+                current = current.getNext(); // set current to next node
+
             }
 
             removedData = current.getNext().getData(); // stores data from last node of linkedList to remove

@@ -1,5 +1,5 @@
-# CS1331x
-Java code from CS1331x
+# GTx CS1331x
+Java code from GTx CS1331x Introduction to Object-Oriented Programming with Java
 
 ### Module 1
 Java foundations and syntax basics
